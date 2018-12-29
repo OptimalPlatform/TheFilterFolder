@@ -83,6 +83,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_MD_static}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_3D}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_4D}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/inc}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.dialect.std.1148690519" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.138016450" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
@@ -93,6 +96,15 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.1667117223" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 							</tool>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.1703717950" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
+								<option id="gnu.c.link.option.paths.1378838397" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Lib}&quot;"/>
+								</option>
+								<option id="gnu.c.link.option.libs.372562101" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value=":STemWin540_CM4_GCC_ARGB.a"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value=":STemWin540_CM4_GCC_ot.a"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value=":STemWin540_CM4_GCC_ot_ARGB.a"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value=":STemWin540_CM4_GCC.a"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.428809165" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -149,6 +161,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_MD_static}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_3D}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_4D}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/inc}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.848139958" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.552333454" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input"/>
@@ -158,6 +173,7 @@
 					<sourceEntries>
 						<entry excluding="Src/stm32f4xx_hal_timebase_tim_template.c|Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c|Src/stm32f4xx_hal_timebase_rtc_alarm_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="HAL_Driver"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Libr"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="Fonts" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Utilities"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="inc"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
@@ -249,6 +265,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_MD_static}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_3D}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_4D}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/inc}&quot;"/>
 								</option>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.350946929" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.82787472" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
@@ -258,6 +276,15 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.2054122791" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 							</tool>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.556040364" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
+								<option id="gnu.c.link.option.paths.384451848" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/emdProj/Middlewares/ST/STemWin/Lib}&quot;"/>
+								</option>
+								<option id="gnu.c.link.option.libs.279887960" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Lib/STemWin540_CM4_GCC_ARGB.a}&quot;"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Lib/STemWin540_CM4_GCC_ot_ARGB.a}&quot;"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Lib/STemWin540_CM4_GCC_ot.a}&quot;"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Lib/STemWin540_CM4_GCC.a}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1296725407" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -315,6 +342,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_MD_static}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_3D}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/inc/filters/kalman_4D}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/Config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Filter/Middlewares/ST/STemWin/inc}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.861764243" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.1444360684" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input"/>

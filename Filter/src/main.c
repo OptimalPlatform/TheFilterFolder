@@ -9,10 +9,12 @@
 */
 
 
-// Hej Olof!
-
 #include "main.h" 	// Read that I never ever should include definitions (allocating of memory)
 					// in a header file so maybe I have to re-do this!
+//Interface
+#include "WM.h"
+#include "GUI.h"
+
 #include "infinite_loop_simple_style.h"
 #include "infinite_loop_kalman_style.h"
 #include "infinite_loop_struct_style.h"
@@ -38,6 +40,11 @@
 
 void SystemClock_Config(void);
 
+static void BSP_Config(void);
+//static void SystemClock_Config(void);
+void BSP_Background(void);
+void MainTask(void);
+
 // ADC buffer flags
 volatile uint8_t ADC1HalfBuffer = 0;
 volatile uint8_t ADC1FullBuffer = 0;
@@ -56,38 +63,146 @@ uint16_t DAC2OutBuff[BUFFER_SIZE];
 // Buffers for Application
 uint16_t appBuff[BUFFER_SIZE];
 
+uint8_t GUI_Initialized = 0;
+TIM_HandleTypeDef TimHandle;
+uint32_t uwPrescalerValue = 0;
 
+//Callback for the background
+static void _cbDesktop(WM_MESSAGE * pMsg) {
+	switch (pMsg->MsgId) {
+	case WM_PAINT:
+		GUI_SetBkColor(GUI_BLACK);
+		GUI_Clear();
+		GUI_SetFont(&GUI_Font24_ASCII);
+		GUI_DispStringAt("Loading...",20,20);
+		break;
+	}
+}
 // ===========================================
 
 int main(void)
 {
 	HAL_Init();
+
+	/* Initialize LCD and LEDs */
+	BSP_Config();
+
 	SystemClock_Config();
 	initADC_DAC(ADC1InBuff, ADC2InBuff, ADC3InBuff,
 			    DAC1OutBuff, DAC2OutBuff, BUFFER_SIZE);
 
+	/* Compute the prescaler value to have TIM3 counter clock equal to 10 KHz */
+		uwPrescalerValue = (uint32_t) ((SystemCoreClock / 2) / 10000) - 1;
+
+		/* Set TIMx instance */
+		TimHandle.Instance = TIM3;
+
+		/* Initialize TIM3 peripheral as follows:
+		 + Period = 500 - 1
+		 + Prescaler = ((SystemCoreClock/2)/10000) - 1
+		 + ClockDivision = 0
+		 + Counter direction = Up
+		 */
+		TimHandle.Init.Period = 500 - 1;
+		TimHandle.Init.Prescaler = uwPrescalerValue;
+		TimHandle.Init.ClockDivision = 0;
+		TimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+		if (HAL_TIM_Base_Init(&TimHandle) != HAL_OK) {
+			while (1) {
+			}
+		}
+
+		/*##-2- Start the TIM Base generation in interrupt mode ####################*/
+		/* Start Channel1 */
+		if (HAL_TIM_Base_Start_IT(&TimHandle) != HAL_OK) {
+			while (1) {
+
+			}
+		}
+
+		/***********************************************************/
+
+		/* Init the STemWin GUI Library */
+		GUI_Init();
+		GUI_SetFont(&GUI_Font24_ASCII);
+		GUI_Initialized = 1;
+
+		/* Activate the use of memory device feature */
+		WM_SetCreateFlags(WM_CF_MEMDEV);
+
+	MainTask();
+
+	while(1);
+}
+
+//Handels interface and filtering
+void MainTask(void) {
+	//initializes the filterState struct
+//	struct arm_matrix_instance_f32 matmat;
+
+	struct FilterState fState;
+	fState.doneFlag = 0;
+	fState.filterType = 'O';
+	fState.filterState = 'I';
+	fState.filterOrder = 2;
+	fState.initMSE = 0;
+	fState.initValue = 0;
+
+	fState.R_1 = 0;
+	fState.R_2 = 0;
+
+	fState.a_1 = 0;
+	fState.a_2 = 0;
+	fState.a_3 = 0;
+	fState.a_4 = 0;
+
+	fState.b_1 = 1;
+	fState.b_2 = 0;
+	fState.b_3 = 0;
+	fState.b_4 = 0;
+
+	//Sets the callback for desktop
+	WM_SetCallback(WM_HBKWIN, _cbDesktop);
+
+	//Loads and executes the desktop
+	GUI_Delay(200);
+
+	//Menu for choosing filterype
+	FilterChoice(&fState);
+	GUI_Delay(200);
+
+	//Menu for choosing filterparam
+	switch (fState.filterType) {
+	case 'W':
+		//WienerMenu(&fState);
+		GUI_Clear();
+		GUI_DispStringAt("Not Yet Implemented",20,20);
+		while(1);
+		break;
+	case 'N':
+		//No filter
+		GUI_Clear();
+		GUI_DispStringAt("No Filter Applied",20,20);
+		while(1);
+		break;
+	case 'K':
+			KalmanMenu(&fState);
+			break;
+	}
+	/*
+	GUI_Clear();
+	GUI_DispStringAt("initial value",20, 20);
+	GUI_DispDecAt(fState.initValue,20,40,4);
+	GUI_DispStringAt("initial MSE",20, 60);
+	GUI_DispDecAt(fState.initMSE,20,80,4);
+	GUI_DispStringAt("R_1",20,100);
+	GUI_DispDecAt(fState.R_2,20,120,4);
+	GUI_DispStringAt("R_2",20,140);
+	GUI_DispDecAt(fState.R_2,20,160,4);
+	GUI_DispStringAt("Model order",20,180);
+	GUI_DispDecAt(fState.filterOrder,20,200,4);
+	*/
 	char which_filter = 'J';  // E I J
-	//interface(&which filter);
-
-	// To do:
-	// 		Create a circuit that subtracts the offset.
-	//		This requires a negatve voltage equal to the added offset.
-	// 		Idea: Get this negative voltage using an inverting amplifier
-	//		(with amplification A = -1).
-	// 		(Needs to be done, mostly, at school.)
-
-	// To do:
-	// 		Structure the Source and Include files better using sub folders.
-	// 		(Can be started with at home. But needs checking at school.)
-
-	// To do:
-	//		Start writing Theory on the report.
-	// 		Can do from home.
-
-	// To do:
-	// 		Start thinking about how to implement a kalman filter with larger ARMA model order.
-	// 		Can do from home (partly).
-
 	switch(which_filter) {
 
 		// Case 'S' works. //
@@ -202,8 +317,14 @@ int main(void)
 	}
 }
 
-
-
+/**
+ * @brief  Period elapsed callback in non blocking mode
+ * @param  htim: TIM handle
+ * @retval None
+ */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	BSP_Background();
+}
 
 // Synchronization for ADC1 buffer
 void DMA2_Stream0_IRQHandler(void)
@@ -222,6 +343,27 @@ void DMA2_Stream0_IRQHandler(void)
 		DMA2->LIFCR |= 1 << 5;
 		ADC1FullBuffer = 1;
 	}
+}
+
+/**
+ * @brief TIM MSP Initialization
+ *        This function configures the hardware resources used in This application:
+ *           - Peripheral's clock enable
+ *           - Peripheral's GPIO Configuration
+ * @param htim: TIM handle pointer
+ * @retval None
+ */
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim) {
+	/*##-1- Enable peripherals and GPIO Clocks #################################*/
+	/* TIMx Peripheral clock enable */
+	__HAL_RCC_TIM3_CLK_ENABLE();
+
+	/*##-2- Configure the NVIC for TIMx ########################################*/
+	/* Set the TIMx priority */
+	HAL_NVIC_SetPriority(TIM3_IRQn, 0, 1);
+
+	/* Enable the TIMx global Interrupt */
+	HAL_NVIC_EnableIRQ(TIM3_IRQn);
 }
 
 // Synchronization for ADC2 buffer
@@ -261,6 +403,86 @@ void DMA2_Stream1_IRQHandler(void)
 	}
 }
 
+/**
+ * @brief  BSP_Background.
+ * @param  None
+ * @retval None
+ */
+void BSP_Background(void) {
+	BSP_LED_Toggle(LED3);
+	BSP_LED_Toggle(LED4);
+
+	/* Capture input event and update cursor */
+	if (GUI_Initialized == 1) {
+		BSP_Pointer_Update();
+	}
+}
+
+/**
+ * @brief  Initializes the STM32F429I-DISCO's LCD and LEDs resources.
+ * @param  None
+ * @retval None
+ */
+static void BSP_Config(void) {
+	/* Initialize STM32F429I-DISCO's LEDs */
+	BSP_LED_Init(LED3);
+	BSP_LED_Init(LED4);
+
+	/* Initializes the SDRAM device */
+	BSP_SDRAM_Init();
+
+	/* Initialize the Touch screen */
+	if (BSP_TS_Init(240, 320) != TS_OK) {
+		while (1)
+			;
+	}
+
+	/* Enable the CRC Module */
+	__HAL_RCC_CRC_CLK_ENABLE()
+	;
+}
+
+/**
+ * @brief  Provide the GUI with current state of the touch screen
+ * @param  None
+ * @retval None
+ */
+
+void BSP_Pointer_Update(void) {
+	GUI_PID_STATE TS_State;
+	static TS_StateTypeDef prev_state;
+	TS_StateTypeDef ts;
+	uint16_t xDiff, yDiff;
+
+	BSP_TS_GetState(&ts);
+
+	TS_State.Pressed = 0;
+	if (ts.TouchDetected == 1) {
+		TS_State.Pressed = 1;
+	}
+
+	xDiff = (prev_state.X > ts.X) ?
+			(prev_state.X - ts.X) : (ts.X - prev_state.X);
+	yDiff = (prev_state.Y > ts.Y) ?
+			(prev_state.Y - ts.Y) : (ts.Y - prev_state.Y);
+
+	if (ts.TouchDetected) {
+		if ((prev_state.TouchDetected != ts.TouchDetected) || (xDiff > 3)
+				|| (yDiff > 3)) {
+			prev_state = ts;
+
+			TS_State.Layer = 0;
+			TS_State.x = ts.X;
+			TS_State.y = ts.Y;
+			GUI_TOUCH_StoreStateEx(&TS_State);
+		}
+	} else {
+		TS_State.Layer = 0;
+		TS_State.x = -1;
+		TS_State.y = -1;
+		GUI_TOUCH_StoreStateEx(&TS_State);
+	}
+}
 
 /**
   * @brief System Clock Configuration

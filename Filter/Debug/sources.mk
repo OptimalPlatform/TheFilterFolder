@@ -18,6 +18,7 @@ SUBDIRS := \
 HAL_Driver/Src/Legacy \
 HAL_Driver/Src \
 Libr \
+Middlewares/ST/STemWin/Config \
 Utilities/Components/cs43l22 \
 Utilities/Components/exc7200 \
 Utilities/Components/ft6x06 \
@@ -51,6 +52,7 @@ src/filters/matrix \
 src/filters/simple \
 src/filters/struct \
 src/filters/utilities \
+src/interface \
 src \
 startup \
 

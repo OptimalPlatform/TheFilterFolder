@@ -9,6 +9,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include startup/subdir.mk
+-include src/interface/subdir.mk
 -include src/filters/utilities/subdir.mk
 -include src/filters/struct/subdir.mk
 -include src/filters/simple/subdir.mk
@@ -43,6 +44,7 @@ RM := rm -rf
 -include Utilities/Components/ft6x06/subdir.mk
 -include Utilities/Components/exc7200/subdir.mk
 -include Utilities/Components/cs43l22/subdir.mk
+-include Middlewares/ST/STemWin/Config/subdir.mk
 -include Libr/subdir.mk
 -include HAL_Driver/Src/Legacy/subdir.mk
 -include HAL_Driver/Src/subdir.mk
@@ -66,10 +68,10 @@ endif
 all: Filter.elf
 
 # Tool invocations
-Filter.elf: $(OBJS) $(USER_OBJS) C:\Users\User\project_embedded_systems\Final_Software\TheFilterFolder\Filter/LinkerScript.ld
+Filter.elf: $(OBJS) $(USER_OBJS) E:\Users\Olof\prog\Proj_inbygda\git\TheFilterFolder\Filter/LinkerScript.ld
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU GCC Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T"C:/Users/User/project_embedded_systems/Final_Software/TheFilterFolder/Filter/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "Filter.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -L"E:\Users\Olof\prog\Proj_inbygda\git\TheFilterFolder\Filter\Middlewares\ST\STemWin\Lib" -T"E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "Filter.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
