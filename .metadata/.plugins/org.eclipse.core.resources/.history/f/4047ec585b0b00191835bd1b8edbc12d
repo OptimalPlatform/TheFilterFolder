@@ -1,0 +1,97 @@
+/*
+ * infinite_loop_kalman_style_vector_edition.c
+ *
+ *  Created on: 3 dec. 2018
+ *      Author: User
+ */
+
+
+#include "arm_math.h"
+
+#include "stdint.h" // To get uint16_t (Could also use inttypes.h)
+//#include "kalman_filter_vector_edition.h" //kalman_filter(y, x_pred, MSE_pred, A, B, H, C_w, C_u);
+
+#include "data_instances.h"
+#include "kalman_filter_2D.h"
+#include "kalman_filter_MD.h"
+#include "matrix_initialize_2D.h"
+#include "data2D_debug.h"
+#include "parameters.h"
+#include "debug_parameters.h"
+
+
+/*
+ * Notation:
+ * 			For notation on the variables used here, see kalman_filter_2D.c.
+ */
+void infinite_loop_kalman_style_2D(	volatile uint8_t* ADC1HalfBuffer, volatile uint8_t* ADC1FullBuffer,
+									volatile uint8_t* ADC2HalfBuffer, volatile uint8_t* ADC2FullBuffer,
+									volatile uint8_t* ADC3HalfBuffer, volatile uint8_t* ADC3FullBuffer,
+									uint16_t* ADC1InBuff, uint16_t* ADC2InBuff,
+									uint16_t* ADC3InBuff, uint16_t* DAC1OutBuff,
+									uint16_t* DAC2OutBuff, uint16_t* appBuff,
+									uint32_t BUFFER_SIZE) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
+{
+	//float32_t * f;
+
+
+	struct Matrix_DataMD Matrix_Data;
+	//struct Matrix_DataMD_Utilities Utilities_Data;
+	struct Data2D Data;
+	uint32_t dim = 2;
+
+	struct Params Parameters;
+
+	// interface(&Data,dim);
+
+
+	/* ------------------------------------	*/
+	/* 			Start of debug area 		*/
+	/* ____________________________________	*/
+
+	debug_parameters(&Parameters); // This is a debug function!
+
+	/* ------------------------------------	*/
+	/* 			End of debug area 			*/
+	/* ____________________________________	*/
+
+	data2D_debug(&Data,&Parameters); // This is NOT a debug function!
+
+	matrix_initialize_2D(&Matrix_Data, &Data, dim);
+
+
+
+	/*
+	 *
+	 * To do:
+	 * 		Read provided "exjobb".
+	 * 		(Started...)
+	 *
+	 * To do:
+	 * 		Start writing the theory-section on the final report.
+	 * 		That will force you to learn what you are doing.
+	 * 		(Created latex-document...)
+	 *
+	 */
+
+
+	for(;;)
+		{
+			while(!*ADC1HalfBuffer); // Question: Do I need extra parentheses around *ADC1HalfBuffer?
+			for(uint16_t i=0; i<BUFFER_SIZE/2; i++)
+			{
+				kalman_filter_MD( &Matrix_Data, (float32_t)ADC1InBuff[i] );
+				DAC1OutBuff[i] = (uint16_t)Matrix_Data.x_est.pData[0];
+
+			}
+			*ADC1HalfBuffer = 0;
+
+			while(!*ADC1FullBuffer);
+			for(uint16_t i=0; i<BUFFER_SIZE/2; i++)
+			{
+				kalman_filter_MD( &Matrix_Data, (float32_t)ADC1InBuff[i+BUFFER_SIZE/2] );
+				DAC1OutBuff[i+BUFFER_SIZE/2] = (uint16_t)Matrix_Data.x_est.pData[0];
+			}
+			*ADC1FullBuffer = 0;
+		}
+}

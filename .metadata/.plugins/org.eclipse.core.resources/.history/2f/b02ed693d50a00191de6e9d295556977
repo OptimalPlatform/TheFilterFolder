@@ -1,0 +1,13 @@
+/*
+ * infinite_loop_kalman_style_4D.h
+ *
+ *  Created on: 28 dec. 2018
+ *      Author: User
+ */
+
+#ifndef FILTERS_KALMAN_4D_INFINITE_LOOP_KALMAN_STYLE_4D_H_
+#define FILTERS_KALMAN_4D_INFINITE_LOOP_KALMAN_STYLE_4D_H_
+
+
+
+#endif /* FILTERS_KALMAN_4D_INFINITE_LOOP_KALMAN_STYLE_4D_H_ */

@@ -1,0 +1,15 @@
+/*
+ * dynamic_data.h
+ *
+ *  Created on: 27 dec. 2018
+ *      Author: User
+ */
+
+#ifndef FILTERS_UTILITIES_DYNAMIC_DATA_H_
+#define FILTERS_UTILITIES_DYNAMIC_DATA_H_
+
+struct Dynamic_Data {
+
+};
+
+#endif /* FILTERS_UTILITIES_DYNAMIC_DATA_H_ */

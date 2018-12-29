@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.internal.QuickAccess">
+		<item value="250" key="dialogHeight"/>
+		<item value="350" key="dialogWidth"/>
+		<list key="textEntries">
+			<item value="1"/>
+			<item value="1"/>
+		</list>
+		<list key="orderedElements">
+			<item value="org.eclipse.ui.views.ProblemView"/>
+			<item value="org.eclipse.ui.console.ConsoleView"/>
+		</list>
+		<list key="orderedProviders">
+			<item value="org.eclipse.e4.ui.parts"/>
+			<item value="org.eclipse.e4.ui.parts"/>
+		</list>
+		<list key="textArray">
+			<item value="problem"/>
+			<item value="con"/>
+		</list>
+	</section>
+	<section name="PreferencesImportWizard">
+	</section>
+	<section name="ImportExportAction">
+		<item value="org.eclipse.ui.wizards.import.FileSystem" key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID"/>
+		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+	</section>
+	<section name="FileSystemImportWizard">
+		<item value="false" key="WizardFileSystemResourceImportPage1.STORE_CREATE_CONTAINER_STRUCTURE_ID"/>
+		<item value="false" key="WizardFileSystemResourceImportPage1.STORE_OVERWRITE_EXISTING_RESOURCES_ID"/>
+		<list key="WizardFileSystemResourceImportPage1.STORE_SOURCE_NAMES_ID">
+			<item value="C:\Users\User\project_embedded_systems\Final_Software\TheFilterFolder\Filter\src\filters\kalman_2D"/>
+			<item value="C:\Users\User\project_embedded_systems\Final_Software\TheFilterFolder\Filter\inc\filters\kalman_2D"/>
+			<item value="C:\Users\User\project_embedded_systems\software\backup_Cube4\en.stm32cubef4\STM32Cube_FW_F4_V1.21.0\Projects\STM32F429I-Discovery\Experimentation5\inc"/>
+			<item value="C:\Users\User\project_embedded_systems\software\backup_Cube4\en.stm32cubef4\STM32Cube_FW_F4_V1.21.0\Projects\STM32F429I-Discovery\Experimentation5\src"/>
+			<item value="C:\Users\User\project_embedded_systems\software\backup_Cube4\en.stm32cubef4\STM32Cube_FW_F4_V1.21.0\Projects\STM32F429I-Discovery\Experimentation5\Libr"/>
+		</list>
+	</section>
+</section>
