@@ -43,7 +43,7 @@ void infinite_loop_kalman_style_2D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 
 	struct Params Parameters;
 
-	// interface(&Parameters);
+	// interface(&Data,dim);
 
 
 	/* ------------------------------------	*/

@@ -1,6 +1,29 @@
-12:37:33 **** Incremental Build of configuration Debug for project Filter ****
+14:45:46 **** Incremental Build of configuration Debug for project Filter ****
 make -j4 all 
-make: Nothing to be done for 'all'.
+Building file: ../src/filters/kalman_2D/infinite_loop_kalman_style_2D.c
+Invoking: MCU GCC Compiler
+Building file: ../src/main.c
+C:\Users\User\project_embedded_systems\Final_Software\TheFilterFolder\Filter\Debug
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32 -DSTM32F4 -DSTM32F429ZITx -DSTM32F429I_DISC1 -DDEBUG -DSTM32F429xx -DUSE_HAL_DRIVER -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"src/filters/kalman_2D/infinite_loop_kalman_style_2D.d" -MT"src/filters/kalman_2D/infinite_loop_kalman_style_2D.o" -o "src/filters/kalman_2D/infinite_loop_kalman_style_2D.o" "../src/filters/kalman_2D/infinite_loop_kalman_style_2D.c" @"src/filters/kalman_2D/includes.args"
+Invoking: MCU GCC Compiler
+C:\Users\User\project_embedded_systems\Final_Software\TheFilterFolder\Filter\Debug
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32 -DSTM32F4 -DSTM32F429ZITx -DSTM32F429I_DISC1 -DDEBUG -DSTM32F429xx -DUSE_HAL_DRIVER -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c" @"src/includes.args"
+Finished building: ../src/filters/kalman_2D/infinite_loop_kalman_style_2D.c
+ 
+Finished building: ../src/main.c
+ 
+Building target: Filter.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T"C:/Users/User/project_embedded_systems/Final_Software/TheFilterFolder/Filter/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "Filter.elf" @"objects.list"   -lm
+Finished building target: Filter.elf
+ 
+make --no-print-directory post-build
+Generating binary and Printing size information:
+arm-none-eabi-objcopy -O binary "Filter.elf" "Filter.bin"
+arm-none-eabi-size "Filter.elf"
+   text	   data	    bss	    dec	    hex	filename
+  25548	   2136	   4076	  31760	   7c10	Filter.elf
+ 
 
-12:37:37 Build Finished (took 4s.46ms)
+14:45:58 Build Finished (took 12s.602ms)
 

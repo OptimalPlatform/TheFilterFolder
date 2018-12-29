@@ -9,8 +9,6 @@
 */
 
 
-// Hej Olof!
-
 #include "main.h" 	// Read that I never ever should include definitions (allocating of memory)
 					// in a header file so maybe I have to re-do this!
 #include "infinite_loop_simple_style.h"
