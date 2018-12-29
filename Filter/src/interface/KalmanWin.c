@@ -7,11 +7,11 @@
 //Constant
 uint8_t doneFlag;
 char filterState;
-int filterOrder;
-float initValue;
-float initMSE;
-float R_1;
-float R_2;
+uint8_t filterOrder;
+float32_t initValue;
+float32_t initMSE;
+float32_t R_1;
+float32_t R_2;
 
 /*********************************************************************
  *
@@ -192,7 +192,7 @@ void KalmanMenu(struct FilterState* fState) {
 			break;
 
 		case 'O':
-			filterOrder = (int) keypad();
+			filterOrder =abs( (int) keypad());
 			filterState = 'I';
 			doneFlag = 0;
 			break;

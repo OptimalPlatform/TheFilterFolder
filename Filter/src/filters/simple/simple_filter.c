@@ -19,5 +19,5 @@
 uint16_t simple_filter(	uint16_t y )
 {
 	//return y;
-	return y-(y/2);
+	return y;
 }

@@ -31,7 +31,7 @@ void infinite_loop_kalman_style_3D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 									uint16_t* ADC1InBuff, uint16_t* ADC2InBuff,
 									uint16_t* ADC3InBuff, uint16_t* DAC1OutBuff,
 									uint16_t* DAC2OutBuff, uint16_t* appBuff,
-									uint32_t BUFFER_SIZE) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
+									uint32_t BUFFER_SIZE, struct Params* Parameters) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
 {
 	//float32_t * f;
 
@@ -40,16 +40,6 @@ void infinite_loop_kalman_style_3D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 	//struct Matrix_DataMD_Utilities Utilities_Data;
 	struct Data3D Data;
 	uint32_t dim = 3;
-
-	// interface(&Data,dim);
-
-	struct Params Parameters;
-
-	/* ------------------------------------	*/
-	/* 			Start of debug area 		*/
-	/* ____________________________________	*/
-
-	debug_parameters(&Parameters); // This is a debug function!
 
 
 

@@ -24,10 +24,10 @@ struct Params {
 		// MSE_pred		Dynamic variable
 		float32_t MSE_pred;
 
-		// C_w;			Static variable
+		// C_w;			Static variable measurement noise
 		float32_t C_w;
 
-		// C_u;			Static variable
+		// C_u;			Static variable  process noise
 		float32_t C_u;
 
 };

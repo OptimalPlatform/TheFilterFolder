@@ -8,6 +8,8 @@
 #ifndef FILTERS_KALMAN_3D_INFINITE_LOOP_KALMAN_STYLE_3D_H_
 #define FILTERS_KALMAN_3D_INFINITE_LOOP_KALMAN_STYLE_3D_H_
 
+#include "parameters.h"
+
 #include <stdint.h>
 
 void infinite_loop_kalman_style_3D(	volatile uint8_t* ADC1HalfBuffer, volatile uint8_t* ADC1FullBuffer,
@@ -16,6 +18,6 @@ void infinite_loop_kalman_style_3D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 									uint16_t* ADC1InBuff, uint16_t* ADC2InBuff,
 									uint16_t* ADC3InBuff, uint16_t* DAC1OutBuff,
 									uint16_t* DAC2OutBuff, uint16_t* appBuff,
-									uint32_t BUFFER_SIZE);
+									uint32_t BUFFER_SIZE, struct Params* Parameters);
 
 #endif /* FILTERS_KALMAN_3D_INFINITE_LOOP_KALMAN_STYLE_3D_H_ */

@@ -87,6 +87,10 @@ src/interface/filterChoicewin.o: ../src/interface/filterChoicewin.c \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Utilities/STM32F429I-Discovery/stm32f429i_discovery_sdram.h \
  e:\users\olof\prog\proj_inbygda\git\thefilterfolder\filter\utilities\components\ili9341\ili9341.h \
  e:\users\olof\prog\proj_inbygda\git\thefilterfolder\filter\utilities\components\common\lcd.h \
+ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/parameters.h \
+ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/arm_math.h \
+ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/core_cm4.h \
+ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/interface/interfaceMain.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Middlewares/ST/STemWin/inc/DIALOG.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Middlewares/ST/STemWin/inc/WM.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Middlewares/ST/STemWin/inc/BUTTON.h \
@@ -299,6 +303,14 @@ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Utilities/STM32F429I-
 e:\users\olof\prog\proj_inbygda\git\thefilterfolder\filter\utilities\components\ili9341\ili9341.h:
 
 e:\users\olof\prog\proj_inbygda\git\thefilterfolder\filter\utilities\components\common\lcd.h:
+
+E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/parameters.h:
+
+E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/arm_math.h:
+
+E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/core_cm4.h:
+
+E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/interface/interfaceMain.h:
 
 E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Middlewares/ST/STemWin/inc/DIALOG.h:
 

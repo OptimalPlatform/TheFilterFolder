@@ -2651,3 +2651,6 @@ java.lang.NullPointerException
 
 !ENTRY org.eclipse.cdt.core 1 0 2018-12-29 16:08:22.754
 !MESSAGE Indexed 'Filter' (181 sources, 258 headers) in 6,45 sec: 31 992 declarations; 132 398 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-12-29 17:07:30.985
+!MESSAGE Indexed 'Filter' (181 sources, 258 headers) in 5,97 sec: 32 000 declarations; 132 498 references; 0 unresolved inclusions; 2 syntax errors; 13 unresolved names (0,0079 %)

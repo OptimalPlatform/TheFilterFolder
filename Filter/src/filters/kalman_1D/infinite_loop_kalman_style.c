@@ -8,7 +8,7 @@
 
 //#include "stdint.h" // To get uint16_t (Could also use inttypes.h)
 #include "kalman_filter.h" //kalman_filter(y, x_pred, MSE_pred, A, B, H, C_w, C_u);
-
+#include "parameters.h"
 
 /*
  * Notation:
@@ -35,7 +35,7 @@ void infinite_loop_kalman_style(	volatile uint8_t* ADC1HalfBuffer, volatile uint
 									uint16_t* ADC1InBuff, uint16_t* ADC2InBuff,
 									uint16_t* ADC3InBuff, uint16_t* DAC1OutBuff,
 									uint16_t* DAC2OutBuff, uint16_t* appBuff,
-									uint32_t BUFFER_SIZE) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
+									uint32_t BUFFER_SIZE, struct Params* Paramters) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
 {
 
 	struct Data1D Data;

@@ -1,0 +1,229 @@
+//Menu for the kalmanfilter
+#include "main.h"
+#include "DIALOG.h"
+#include "GUI.h"
+#include <stdlib.h>
+
+//Constant
+uint8_t doneFlag;
+char filterState;
+int filterOrder;
+float initValue;
+float initMSE;
+float R_1;
+float R_2;
+
+/*********************************************************************
+ *
+ *       Static data
+ *
+ **********************************************************************
+ */
+
+/* Dialog resource of numpad */
+static const GUI_WIDGET_CREATE_INFO _aDialogKalmanWin[] =
+		{
+				/*  Function                 Text      Id                 Px   Py   Dx   Dy */
+				{ WINDOW_CreateIndirect, 0, 0, 0, 0, 240, 320 },
+				{BUTTON_CreateIndirect, "Set modelorder", GUI_ID_USER + 5, 5, 5,225, 35 },
+				{ BUTTON_CreateIndirect, "Set init MSE", GUI_ID_USER	+ 0, 5, 45, 225, 35 },
+				{ BUTTON_CreateIndirect, "Set init x", GUI_ID_USER + 1, 5, 85, 225, 35 },
+				{ BUTTON_CreateIndirect, "Set R_1",GUI_ID_USER + 2, 5, 125, 225, 35 },
+				{ BUTTON_CreateIndirect, "Set R_2",GUI_ID_USER + 3, 5, 165, 225, 35 },
+				{ BUTTON_CreateIndirect, "Set a vector", GUI_ID_USER + 6, 5, 205 ,225 ,35 },
+				{ BUTTON_CreateIndirect, "Set b vector", GUI_ID_USER + 7, 5, 245, 225, 35 },
+				{ BUTTON_CreateIndirect,"Start filtering",GUI_ID_USER + 4, 5, 285, 225, 35 }
+		};
+
+/*********************************************************************
+ *
+ *       Static code
+ *
+ **********************************************************************
+ */
+/*********************************************************************
+ *
+ *       _cbDialogNumPad
+ *
+ * Purpose:
+
+ */
+
+static void _cbDialogKalmanWin(WM_MESSAGE * pMsg) {
+	int i, NCode, Id, Pressed = 0;
+	WM_HWIN hDlg, hItem;
+	hDlg = pMsg->hWin;
+	switch (pMsg->MsgId) {
+	case WM_PAINT:
+		GUI_SetBkColor(0x000000);
+		GUI_Clear();
+	break;
+
+	case WM_INIT_DIALOG:
+		for (i = 0; i <= GUI_COUNTOF(_aDialogKalmanWin); i++) {
+			hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + i);
+			BUTTON_SetFocussable(hItem, 1); // Set all buttons focussable
+		}
+		break;
+
+	case WM_NOTIFY_PARENT:
+		Id = WM_GetId(pMsg->hWinSrc); // Id of widget
+		NCode = pMsg->Data.v; // Notification code
+		int Key = 0;
+
+		switch (NCode) {
+			case WM_NOTIFICATION_RELEASED:
+				if (Id == GUI_ID_USER + 0) {
+					filterState = 'X';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg, 1);
+				} else if (Id == GUI_ID_USER + 1) {
+					filterState = 'M';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg, 1);
+				} else if (Id == GUI_ID_USER + 2) {
+					filterState = 'R';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg, 1);
+				} else if (Id == GUI_ID_USER + 3) {
+					filterState = 'Q';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg, 1);
+				} else if (Id == GUI_ID_USER + 4) {
+					filterState = 'G';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg, 1);
+				} else if (Id == GUI_ID_USER + 5) {
+					filterState = 'O';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg,0);
+				} else if (Id == GUI_ID_USER + 6) {
+					filterState = 'a';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg,1);
+				} else if (Id == GUI_ID_USER + 7) {
+					filterState = 'b';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg,1);
+				}
+
+			GUI_SendKeyMsg(Key, Pressed); // Send a key message to the focussed window
+			break;
+
+		case WM_NOTIFICATION_CLICKED:
+			Pressed = 1;
+			break;
+		}
+		break;
+
+		default:
+		WM_DefaultProc(pMsg);
+	}
+}
+/**********************b***********************************************
+ *
+ *       _cbDesktop
+ *
+ * Purpose:
+ *   This routine handles the drawing of the desktop window.
+ */
+
+/*********************************************************************
+ *
+ *       Exported code
+ *
+ **********************************************************************
+ */
+/*********************************************************************
+ *
+ *       MainTask
+ */
+void KalmanMenu(struct FilterState* fState) {
+	WM_HWIN hMenu;
+	doneFlag = fState->doneFlag;
+	 filterState = fState->filterState;
+	filterOrder = fState->filterOrder;
+	initValue = fState->initValue;
+	initMSE = fState->initMSE;
+	R_1 = fState->R_1;
+	R_2 = fState->R_2;
+
+	while (doneFlag != 2)
+	{
+		switch (filterState)
+		{
+		case 'I':
+			GUI_SelectLayer(0);
+			hMenu = GUI_CreateDialogBox(_aDialogKalmanWin, GUI_COUNTOF(_aDialogKalmanWin), _cbDialogKalmanWin, WM_HBKWIN, 0, 0);
+
+			WM_SetCallback(hMenu, _cbDialogKalmanWin);
+			WIDGET_SetFocusable(hMenu, 1);
+/*
+			while (doneFlag == 0)
+			{
+				GUI_Delay(200);
+			}
+			*/
+			GUI_Exec();
+			break;
+
+		case 'X':
+			initValue =  keypad();
+			filterState = 'I';
+			doneFlag = 0;
+			break;
+
+		case 'M':
+			initMSE = keypad();
+			filterState = 'I';
+			doneFlag = 0;
+			break;
+
+		case 'R':
+			R_1 = keypad();
+			filterState = 'I';
+			doneFlag = 0;
+			break;
+
+		case 'Q':
+			R_2 = keypad();
+			filterState = 'I';
+			doneFlag = 0;
+			break;
+
+		case 'O':
+			filterOrder = (int) keypad();
+			filterState = 'I';
+			doneFlag = 0;
+			break;
+
+		case 'a':
+			aVecMenu(fState);
+			filterState = 'I';
+			doneFlag = 0;
+			break;
+
+		case 'b':
+			bVecMenu(fState);
+			filterState = 'I';
+			doneFlag = 0;
+			break;
+
+		case 'G':
+			doneFlag = 2;
+			break;
+		}
+		GUI_Delay(200);
+	}
+
+		fState->doneFlag = doneFlag;
+		fState->R_1 = R_1;
+		fState->R_2 = R_2;
+		fState->filterState = filterState;
+		fState->filterOrder = filterOrder;
+		fState->initMSE = initMSE;
+		fState->initValue = initValue;
+}
+
+/*************************** End of file ****************************/
+

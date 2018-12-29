@@ -89,6 +89,10 @@ Middlewares/ST/STemWin/Config/LCDConf_stm32f429i_disco_MB1075.o: \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Utilities/STM32F429I-Discovery/stm32f429i_discovery_sdram.h \
  e:\users\olof\prog\proj_inbygda\git\thefilterfolder\filter\utilities\components\ili9341\ili9341.h \
  e:\users\olof\prog\proj_inbygda\git\thefilterfolder\filter\utilities\components\common\lcd.h \
+ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/parameters.h \
+ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/arm_math.h \
+ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/core_cm4.h \
+ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/interface/interfaceMain.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Middlewares/ST/STemWin/inc/GUIDRV_Lin.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Middlewares/ST/STemWin/inc/GUI_Private.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Middlewares/ST/STemWin/inc/LCD_Protected.h \
@@ -271,6 +275,14 @@ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Utilities/STM32F429I-
 e:\users\olof\prog\proj_inbygda\git\thefilterfolder\filter\utilities\components\ili9341\ili9341.h:
 
 e:\users\olof\prog\proj_inbygda\git\thefilterfolder\filter\utilities\components\common\lcd.h:
+
+E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/parameters.h:
+
+E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/arm_math.h:
+
+E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/core_cm4.h:
+
+E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/interface/interfaceMain.h:
 
 E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/Middlewares/ST/STemWin/inc/GUIDRV_Lin.h:
 

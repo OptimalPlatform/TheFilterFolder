@@ -18,7 +18,6 @@
 #include "matrix_initialize_2D.h"
 #include "data2D_debug.h"
 #include "parameters.h"
-#include "debug_parameters.h"
 
 
 /*
@@ -31,7 +30,7 @@ void infinite_loop_kalman_style_2D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 									uint16_t* ADC1InBuff, uint16_t* ADC2InBuff,
 									uint16_t* ADC3InBuff, uint16_t* DAC1OutBuff,
 									uint16_t* DAC2OutBuff, uint16_t* appBuff,
-									uint32_t BUFFER_SIZE) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
+									uint32_t BUFFER_SIZE, struct Params* Parameters) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
 {
 	//float32_t * f;
 
@@ -41,16 +40,7 @@ void infinite_loop_kalman_style_2D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 	struct Data2D Data;
 	uint32_t dim = 2;
 
-	struct Params Parameters;
 
-	// interface(&Parameters);
-
-
-	/* ------------------------------------	*/
-	/* 			Start of debug area 		*/
-	/* ____________________________________	*/
-
-	debug_parameters(&Parameters); // This is a debug function!
 
 	/* ------------------------------------	*/
 	/* 			End of debug area 			*/

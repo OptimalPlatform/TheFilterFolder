@@ -13,8 +13,6 @@ src/filters/kalman_4D/infinite_loop_kalman_style_4D.o: \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/kalman_4D/matrix_initialize_4D.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/kalman_4D/kalman_data_4D.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/kalman_4D/data4D_debug.h \
- E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/parameters.h \
- E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/debug_parameters.h \
  E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/parameters.h
 
 E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/CMSIS/core/arm_math.h:
@@ -42,9 +40,5 @@ E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/kalman_4D
 E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/kalman_4D/kalman_data_4D.h:
 
 E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/kalman_4D/data4D_debug.h:
-
-E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/parameters.h:
-
-E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/debug_parameters.h:
 
 E:/Users/Olof/prog/Proj_inbygda/git/TheFilterFolder/Filter/inc/filters/utilities/parameters.h:

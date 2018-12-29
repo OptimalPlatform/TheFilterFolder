@@ -19,7 +19,6 @@
 #include "matrix_initialize_4D.h"
 #include "data4D_debug.h"
 #include "parameters.h"
-#include "debug_parameters.h"
 
 
 /*
@@ -32,7 +31,7 @@ void infinite_loop_kalman_style_4D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 									uint16_t* ADC1InBuff, uint16_t* ADC2InBuff,
 									uint16_t* ADC3InBuff, uint16_t* DAC1OutBuff,
 									uint16_t* DAC2OutBuff, uint16_t* appBuff,
-									uint32_t BUFFER_SIZE) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
+									uint32_t BUFFER_SIZE, struct Params* Parameters) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
 {
 	//float32_t * f;
 
@@ -41,18 +40,6 @@ void infinite_loop_kalman_style_4D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 	//struct Matrix_DataMD_Utilities Utilities_Data;
 	struct Data4D Data;
 	uint32_t dim = 4;
-
-	struct Params Parameters;
-
-	// interface(&Data,dim);
-
-
-	/* ------------------------------------	*/
-	/* 			Start of debug area 		*/
-	/* ____________________________________	*/
-
-	debug_parameters(&Parameters); // This is a debug function!
-
 
 	/* ------------------------------------	*/
 	/* 			End of debug area 			*/

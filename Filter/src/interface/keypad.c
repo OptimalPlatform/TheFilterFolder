@@ -31,11 +31,11 @@
 #include <stdlib.h>
 
 //functions
-float concanate(float x, int y);
+float32_t concanate(float32_t x, int y);
 //float decimal(float x, int y);
 
 //Constant
-float num = 0; //value on display
+float32_t num = 0; //value on display
 int8_t numSign = 1; //1 for + -1 for -
 uint8_t doneFlag = 0;
 //int decFlag = 1; // 1 for normal 0 for dec mode
@@ -192,7 +192,7 @@ int keypad(void) {
 }
 
 //concanates 1 and 2 as 12 etc
-float concanate(float x, int y) {
+float32_t concanate(float32_t x, int y) {
 	x = abs(x);
 	int pow = 10;
 	while (y >= pow) {

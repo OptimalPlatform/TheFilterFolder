@@ -8,6 +8,8 @@
 #ifndef INFINITE_LOOP_KALMAN_STYLE_2D_H_
 #define INFINITE_LOOP_KALMAN_STYLE_2D_H_
 
+#include "parameters.h"
+
 // Should aI not have include stdint here?!!
 
 void infinite_loop_kalman_style_2D(	volatile uint8_t* ADC1HalfBuffer, volatile uint8_t* ADC1FullBuffer,
@@ -16,6 +18,6 @@ void infinite_loop_kalman_style_2D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 												uint16_t* ADC1InBuff, uint16_t* ADC2InBuff,
 												uint16_t* ADC3InBuff, uint16_t* DAC1OutBuff,
 												uint16_t* DAC2OutBuff, uint16_t* appBuff,
-												uint32_t BUFFER_SIZE);
+												uint32_t BUFFER_SIZE, struct Params* Parameters);
 
 #endif /* INFINITE_LOOP_KALMAN_STYLE_2D_H_ */

@@ -17,10 +17,10 @@ uint8_t doneFlag;
 
 uint8_t var;
 
-float a_1;
-float a_2;
-float a_3;
-float a_4;
+float32_t a_1;
+float32_t a_2;
+float32_t a_3;
+float32_t a_4;
 
 /*********************************************************************
  *
