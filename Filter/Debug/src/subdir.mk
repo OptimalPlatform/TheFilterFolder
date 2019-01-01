@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/MainTask.c \
 ../src/main.c \
 ../src/periph_configs.c \
 ../src/stm32f4xx_it.c \
@@ -11,6 +12,7 @@ C_SRCS += \
 ../src/system_stm32f4xx.c 
 
 OBJS += \
+./src/MainTask.o \
 ./src/main.o \
 ./src/periph_configs.o \
 ./src/stm32f4xx_it.o \
@@ -18,6 +20,7 @@ OBJS += \
 ./src/system_stm32f4xx.o 
 
 C_DEPS += \
+./src/MainTask.d \
 ./src/main.d \
 ./src/periph_configs.d \
 ./src/stm32f4xx_it.d \

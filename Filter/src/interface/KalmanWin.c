@@ -7,11 +7,6 @@
 //Constant
 uint8_t doneFlag;
 char filterState;
-uint8_t filterOrder;
-float32_t initValue;
-float32_t initMSE;
-float32_t R_1;
-float32_t R_2;
 
 /*********************************************************************
  *
@@ -25,7 +20,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogKalmanWin[] =
 		{
 				/*  Function                 Text      Id                 Px   Py   Dx   Dy */
 				{ WINDOW_CreateIndirect, 0, 0, 0, 0, 240, 320 },
-				{BUTTON_CreateIndirect, "Set modelorder", GUI_ID_USER + 5, 5, 5,225, 35 },
+				{ BUTTON_CreateIndirect, "Set modelorder", GUI_ID_USER + 5, 5, 5,225, 35 },
 				{ BUTTON_CreateIndirect, "Set init MSE", GUI_ID_USER	+ 0, 5, 45, 225, 35 },
 				{ BUTTON_CreateIndirect, "Set init x", GUI_ID_USER + 1, 5, 85, 225, 35 },
 				{ BUTTON_CreateIndirect, "Set R_1",GUI_ID_USER + 2, 5, 125, 225, 35 },
@@ -106,7 +101,6 @@ static void _cbDialogKalmanWin(WM_MESSAGE * pMsg) {
 					doneFlag = 1;
 					GUI_EndDialog(hDlg,1);
 				}
-
 			GUI_SendKeyMsg(Key, Pressed); // Send a key message to the focussed window
 			break;
 
@@ -142,88 +136,18 @@ void KalmanMenu(struct FilterState* fState) {
 	WM_HWIN hMenu;
 	doneFlag = fState->doneFlag;
 	 filterState = fState->filterState;
-	filterOrder = fState->filterOrder;
-	initValue = fState->initValue;
-	initMSE = fState->initMSE;
-	R_1 = fState->R_1;
-	R_2 = fState->R_2;
 
-	while (doneFlag != 2)
+	 GUI_SelectLayer(0);
+
+	hMenu = GUI_CreateDialogBox(_aDialogKalmanWin, GUI_COUNTOF(_aDialogKalmanWin), _cbDialogKalmanWin, WM_HBKWIN, 0, 0);
+
+	WM_SetCallback(hMenu, _cbDialogKalmanWin);
+	WIDGET_SetFocusable(hMenu, 1);
+
+	while (doneFlag == 0)
 	{
-		switch (filterState)
-		{
-		case 'I':
-			GUI_SelectLayer(0);
-			hMenu = GUI_CreateDialogBox(_aDialogKalmanWin, GUI_COUNTOF(_aDialogKalmanWin), _cbDialogKalmanWin, WM_HBKWIN, 0, 0);
-
-			WM_SetCallback(hMenu, _cbDialogKalmanWin);
-			WIDGET_SetFocusable(hMenu, 1);
-/*
-			while (doneFlag == 0)
-			{
-				GUI_Delay(200);
-			}
-			*/
-			GUI_Exec();
-			break;
-
-		case 'X':
-			initValue =  keypad();
-			filterState = 'I';
-			doneFlag = 0;
-			break;
-
-		case 'M':
-			initMSE = keypad();
-			filterState = 'I';
-			doneFlag = 0;
-			break;
-
-		case 'R':
-			R_1 = keypad();
-			filterState = 'I';
-			doneFlag = 0;
-			break;
-
-		case 'Q':
-			R_2 = keypad();
-			filterState = 'I';
-			doneFlag = 0;
-			break;
-
-		case 'O':
-			filterOrder =abs( (int) keypad());
-			filterState = 'I';
-			doneFlag = 0;
-			break;
-
-		case 'a':
-			aVecMenu(fState);
-			filterState = 'I';
-			doneFlag = 0;
-			break;
-
-		case 'b':
-			bVecMenu(fState);
-			filterState = 'I';
-			doneFlag = 0;
-			break;
-
-		case 'G':
-			doneFlag = 2;
-			break;
-		}
 		GUI_Delay(200);
 	}
 
-		fState->doneFlag = doneFlag;
-		fState->R_1 = R_1;
-		fState->R_2 = R_2;
-		fState->filterState = filterState;
-		fState->filterOrder = filterOrder;
-		fState->initMSE = initMSE;
-		fState->initValue = initValue;
+	fState->filterState = filterState;
 }
-
-/*************************** End of file ****************************/
-

@@ -17,11 +17,6 @@ uint8_t doneFlag;
 
 uint8_t var;
 
-float32_t b_1;
-float32_t b_2;
-float32_t b_3;
-float32_t b_4;
-
 /*********************************************************************
  *
  *       Static data
@@ -80,6 +75,7 @@ static void _cbDialogbVecWin(WM_MESSAGE * pMsg) {
 		switch (NCode) {
 			case WM_NOTIFICATION_RELEASED:
 				if (Id == GUI_ID_USER + 0) {
+					var = 0;
 					doneFlag = 2;
 					GUI_EndDialog(hDlg, 1);
 				} else if (Id == GUI_ID_USER + 1) {
@@ -95,7 +91,7 @@ static void _cbDialogbVecWin(WM_MESSAGE * pMsg) {
 					doneFlag = 1;
 					GUI_EndDialog(hDlg, 1);
 				} else if (Id == GUI_ID_USER + 4) {
-					var = 3;
+					var = 4;
 					doneFlag = 1;
 					GUI_EndDialog(hDlg, 1);
 				}
@@ -131,61 +127,21 @@ static void _cbDialogbVecWin(WM_MESSAGE * pMsg) {
 void bVecMenu(struct FilterState* fState) {
 	WM_HWIN hMenu;
 
-	var = 0;
+	doneFlag = fState->doneFlag;
+	var = fState->vecInd;
 
-	b_1 = fState->b_1;
-	b_2 = fState->b_2;
-	b_3 = fState->b_3;
-	b_4 = fState->b_4;
+	GUI_SelectLayer(0);
+	hMenu = GUI_CreateDialogBox(_aDialogbVecWin, GUI_COUNTOF(_aDialogbVecWin), _cbDialogbVecWin, WM_HBKWIN, 0, 0);
 
-	while (doneFlag != 2)
+	WM_SetCallback(hMenu, _cbDialogbVecWin);
+	WIDGET_SetFocusable(hMenu, 1);
+
+	while (doneFlag == 0)
 	{
-		switch (var)
-		{
-		case '0':
-			GUI_SelectLayer(0);
-			hMenu = GUI_CreateDialogBox(_aDialogbVecWin, GUI_COUNTOF(_aDialogbVecWin), _cbDialogbVecWin, WM_HBKWIN, 0, 0);
-
-			WM_SetCallback(hMenu, _cbDialogbVecWin);
-			WIDGET_SetFocusable(hMenu, 1);
-			break;
-
-		case '1':
-			b_1 =  keypad();
-			var = 0;;
-			doneFlag = 0;
-			break;
-
-		case '2':
-			b_2 = keypad();
-			var = 0;
-			doneFlag = 0;
-			break;
-
-		case '3':
-			b_3 = keypad();
-			var = 0;
-			doneFlag = 0;
-			break;
-
-		case '4':
-			b_4 = keypad();
-			var = 0;
-			doneFlag = 0;
-			break;
-
-		case 'G':
-			doneFlag = 2;
-			break;
-
-		}
 		GUI_Delay(200);
 	}
 
-		fState->b_1 = b_1;
-		fState->b_2 = b_2;
-		fState->b_3 = b_3;
-		fState->b_4 = b_4;
+	fState->vecInd = var;
 }
 
 /*************************** End of file ****************************/

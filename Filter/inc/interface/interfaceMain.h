@@ -13,6 +13,7 @@ struct FilterState
 	uint8_t filterOrder;
 	float initMSE;
 	float initValue;
+	uint8_t vecInd;
 
 	float32_t R_1;
 	float32_t R_2;
@@ -27,6 +28,7 @@ struct FilterState
 	float32_t b_3;
 	float32_t b_4;
 };
+
 
 void FilterChoice(struct FilterState* fState);
 void KalmanMenu(struct FilterState* fState);

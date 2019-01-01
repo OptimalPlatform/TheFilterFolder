@@ -31,11 +31,11 @@
 #include <stdlib.h>
 
 //functions
-float32_t concanate(float32_t x, int y);
+float concanate(float x, int y);
 //float decimal(float x, int y);
 
 //Constant
-float32_t num = 0; //value on display
+float num; //value on display
 int8_t numSign = 1; //1 for + -1 for -
 uint8_t doneFlag = 0;
 //int decFlag = 1; // 1 for normal 0 for dec mode
@@ -49,22 +49,23 @@ uint8_t doneFlag = 0;
 /* Dialog resource of numpad */
 static const GUI_WIDGET_CREATE_INFO _aDialogNumPad[] = {
 /*  Function                 Text      Id                 Px   Py   Dx   Dy */
-{ WINDOW_CreateIndirect, 0, 0, 0, 0, 240, 320 }, { EDIT_CreateIndirect, 0,
-GUI_ID_EDIT0, 10, 10, 200, 40, 0, 0 }, { BUTTON_CreateIndirect, "7",
-GUI_ID_USER + 7, 5, 65, 50, 40 }, { BUTTON_CreateIndirect, "8",
-GUI_ID_USER + 8, 65, 65, 50, 40 }, { BUTTON_CreateIndirect, "9",
-GUI_ID_USER + 9, 125, 65, 50, 40 }, { BUTTON_CreateIndirect, "4",
-GUI_ID_USER + 4, 5, 125, 50, 40 }, { BUTTON_CreateIndirect, "5",
-GUI_ID_USER + 5, 65, 125, 50, 40 }, { BUTTON_CreateIndirect, "6",
-GUI_ID_USER + 6, 125, 125, 50, 40 }, { BUTTON_CreateIndirect, "1",
-GUI_ID_USER + 1, 5, 185, 50, 40 }, { BUTTON_CreateIndirect, "2",
-GUI_ID_USER + 2, 65, 185, 50, 40 }, { BUTTON_CreateIndirect, "3",
-GUI_ID_USER + 3, 125, 185, 50, 40 }, { BUTTON_CreateIndirect, "Cancel",
-GUI_ID_CANCEL, 5, 245, 50, 40 }, { BUTTON_CreateIndirect, "0",
-GUI_ID_USER + 0, 65, 245, 50, 40 }, { BUTTON_CreateIndirect, "OK",
-GUI_ID_OK, 125, 245, 50, 40 }, { BUTTON_CreateIndirect, "-", GUI_ID_USER + 10,
-		185, 65, 40, 100 }, { BUTTON_CreateIndirect, ".", GUI_ID_USER + 11, 185,
-		185, 40, 100 } };
+		{ WINDOW_CreateIndirect, 0, 0, 0, 0, 240, 320 },
+		{ EDIT_CreateIndirect, 0, GUI_ID_EDIT0, 10, 10, 200, 40, 0, 0 },
+		{ BUTTON_CreateIndirect, "7", GUI_ID_USER + 7, 5, 65, 50, 40 },
+		{ BUTTON_CreateIndirect, "8",GUI_ID_USER + 8, 65, 65, 50, 40 },
+		{ BUTTON_CreateIndirect, "9",GUI_ID_USER + 9, 125, 65, 50, 40 },
+		{ BUTTON_CreateIndirect, "4", GUI_ID_USER + 4, 5, 125, 50, 40 },
+		{ BUTTON_CreateIndirect, "5",GUI_ID_USER + 5, 65, 125, 50, 40 },
+		{ BUTTON_CreateIndirect, "6",GUI_ID_USER + 6, 125, 125, 50, 40 },
+		{ BUTTON_CreateIndirect, "1",GUI_ID_USER + 1, 5, 185, 50, 40 },
+		{ BUTTON_CreateIndirect, "2",GUI_ID_USER + 2, 65, 185, 50, 40 },
+		{ BUTTON_CreateIndirect, "3",GUI_ID_USER + 3, 125, 185, 50, 40 },
+		{ BUTTON_CreateIndirect, "Cancel",GUI_ID_CANCEL, 5, 245, 50, 40 },
+		{ BUTTON_CreateIndirect, "0",GUI_ID_USER + 0, 65, 245, 50, 40 },
+		{ BUTTON_CreateIndirect, "OK",GUI_ID_OK, 125, 245, 50, 40 },
+		{ BUTTON_CreateIndirect, "-", GUI_ID_USER + 10,185, 65, 40, 100 },
+		{ BUTTON_CreateIndirect, ".", GUI_ID_USER + 11, 185,185, 40, 100 }
+};
 
 /*********************************************************************
  *
@@ -168,8 +169,8 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
  */
 int keypad(void) {
 	WM_HWIN hNumPad;
-	int doneFlag = 0;
-
+	doneFlag = 0;
+	num = 0;
 	GUI_SelectLayer(0);
 
 	hNumPad = GUI_CreateDialogBox(_aDialogNumPad, GUI_COUNTOF(_aDialogNumPad),_cbDialogNumPad, WM_HBKWIN, 0, 0);
@@ -179,7 +180,6 @@ int keypad(void) {
 
 	while (doneFlag == 0)
 	{
-		GUI_ExecCreatedDialog(hNumPad);
 		GUI_Delay(200);
 	}
 		if (doneFlag == 2)
@@ -192,7 +192,7 @@ int keypad(void) {
 }
 
 //concanates 1 and 2 as 12 etc
-float32_t concanate(float32_t x, int y) {
+float concanate(float x, int y) {
 	x = abs(x);
 	int pow = 10;
 	while (y >= pow) {
@@ -220,6 +220,3 @@ float decimal(float x, int y) {
 	return x + pow * y;
 }
 */
-
-/*************************** End of file ****************************/
-
