@@ -188,135 +188,140 @@ void MainTask(void) {
 
 	//translates the values from the interface to the actuall filters
 	switch (fState.filterType) {
-		case 'K':
-			switch (fState.filterOrder) {
-				case 1:
-					//1Dfilter not float at the moment
-					break;
-				case 2:
-					which_filter = 'E';
-					break;
-				case 3:
-					which_filter = 'I';
-					break;
-				case 4:
-					which_filter = 'J';
-					break;
-			}
+	case 'K':
+		switch (fState.filterOrder) {
+		case 1:
+			//1Dfilter not float at the moment
+			break;
+		case 2:
+			which_filter = 'E';
+			break;
+		case 3:
+			which_filter = 'I';
+			break;
+		case 4:
+			which_filter = 'J';
+			break;
+			break;
 		case 'W':
 			//for wienerfiltering
+			GUI_Clear();
+			GUI_DispStringAt("Not Yet Implemented", 20, 20);
+			break;
 		case 'N':
 			//No filtering applied, in = out
+			GUI_Clear();
+			GUI_DispStringAt("No Filter Applied", 20, 20);
 			which_filter = 'A';
+			break;
+		}
+
+		//the sturct that is feed to the
+		struct Params fParams;
+
+		fParams.x_pred[0] = fState.initValue;
+		fParams.x_pred[1] = fState.initValue;
+		fParams.x_pred[2] = fState.initValue;
+		fParams.x_pred[3] = fState.initValue;
+
+		fParams.a[0] = 1;
+		fParams.a[1] = fState.a_1;
+		fParams.a[2] = fState.a_2;
+		fParams.a[3] = fState.a_3;
+		fParams.a[4] = fState.a_4;
+
+		fParams.b[0] = fState.b_1;
+		fParams.b[1] = fState.b_2;
+		fParams.b[2] = fState.b_3;
+		fParams.b[3] = fState.b_4;
+
+		fParams.MSE_pred = fState.initMSE;
+
+		fParams.C_u = fState.R_1;
+		fParams.C_w = fState.R_2;
+
+		switch (which_filter) {
+		// Case 'S' works. //
+		case 'A':
+			infinite_loop_simple_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+			// Case 'X' works. //
+		case 'B':
+			infinite_loop_struct_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+			// Case 'K' does work (but with constant transition and measurement matrix).	//
+		case 'C':
+			infinite_loop_kalman_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
+			break;
+
+			// Case 'I' not tested yet	(Subtracts the offset and deals with negative values)	//
+			// Remember to change the offset value! //
+		case 'D':
+			infinite_loop_kalman_style_int(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+			// Case 'A' not yet implemented . (Extension of case 'I') //
+		case 'E':
+			infinite_loop_kalman_style_2D(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
+			break;
+
+			// Case 'M' not yet implemented.  //
+		case 'F':
+			infinite_loop_matrix_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+		case 'G':
+			infinite_loop_dynamic_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+		case 'H':
+			infinite_loop_kalman_style_MD_static(&ADC1HalfBuffer,
+					&ADC1FullBuffer, &ADC2HalfBuffer, &ADC2FullBuffer,
+					&ADC3HalfBuffer, &ADC3FullBuffer, ADC1InBuff, ADC2InBuff,
+					ADC3InBuff, DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+		case 'I':
+			infinite_loop_kalman_style_3D(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
+			break;
+
+		case 'J':
+			infinite_loop_kalman_style_4D(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
+			break;
+
+		default:;
+			//print_error_on_screen();
+		}
+
+		while (1)	;
 	}
-
-	//the sturct that is feed to the
-	struct Params fParams;
-
-	fParams.x_pred[0] = fState.initValue;
-	fParams.x_pred[1] = fState.initValue;
-	fParams.x_pred[2] = fState.initValue;
-	fParams.x_pred[3] = fState.initValue;
-
-	fParams.a[0] = 1;
-	fParams.a[1] = fState.a_1;
-	fParams.a[2] = fState.a_2;
-	fParams.a[3] = fState.a_3;
-	fParams.a[4] = fState.a_4;
-
-	fParams.b[0] = fState.b_1;
-	fParams.b[1] = fState.b_2;
-	fParams.b[2] = fState.b_3;
-	fParams.b[3] = fState.b_4;
-
-	fParams.MSE_pred = fState.initMSE;
-
-	fParams.C_u = fState.R_1;
-	fParams.C_w = fState.R_2;
-
-	switch (which_filter) {
-	// Case 'S' works. //
-	case 'A':
-		infinite_loop_simple_style(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
-		break;
-
-		// Case 'X' works. //
-	case 'B':
-		infinite_loop_struct_style(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
-		break;
-
-		// Case 'K' does work (but with constant transition and measurement matrix).	//
-	case 'C':
-		infinite_loop_kalman_style(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
-		break;
-
-		// Case 'I' not tested yet	(Subtracts the offset and deals with negative values)	//
-		// Remember to change the offset value! //
-	case 'D':
-		infinite_loop_kalman_style_int(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
-		break;
-
-		// Case 'A' not yet implemented . (Extension of case 'I') //
-	case 'E':
-		infinite_loop_kalman_style_2D(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
-		break;
-
-		// Case 'M' not yet implemented.  //
-	case 'F':
-		infinite_loop_matrix_style(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
-		break;
-
-	case 'G':
-		infinite_loop_dynamic_style(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
-		break;
-
-	case 'H':
-		infinite_loop_kalman_style_MD_static(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
-		break;
-
-	case 'I':
-		infinite_loop_kalman_style_3D(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
-		break;
-
-	case 'J':
-		infinite_loop_kalman_style_4D(&ADC1HalfBuffer, &ADC1FullBuffer,
-				&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
-				&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
-				DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
-		break;
-
-	default:
-		//print_error_on_screen();
-		;
-	}
-
-	while (1)
-		;
 }

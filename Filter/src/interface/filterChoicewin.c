@@ -21,7 +21,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogFilterChoice[] =
 		{ WINDOW_CreateIndirect, 0, 0, 0, 0, 240, 320 },
 		{ BUTTON_CreateIndirect, "Kalman Filter", GUI_ID_USER + 0, 5, 5, 225, 90 },
 		{ BUTTON_CreateIndirect, "Wiener Filter", GUI_ID_USER + 1, 5, 100, 225, 90 },
-		{ BUTTON_CreateIndirect, "No Filter", GUI_ID_USER + 2, 5, 200, 225 , 90 }
+		{ BUTTON_CreateIndirect, "No Filter", GUI_ID_USER + 2, 5, 195, 225 , 90 }
 };
 
 /*********************************************************************

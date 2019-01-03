@@ -46,7 +46,7 @@ void infinite_loop_kalman_style_2D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 	/* 			End of debug area 			*/
 	/* ____________________________________	*/
 
-	data2D_debug(&Data,&Parameters); // This is NOT a debug function!
+	//data2D_debug(&Data,&Parameters); // This is NOT a debug function!
 
 	matrix_initialize_2D(&Matrix_Data, &Data, dim);
 
