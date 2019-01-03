@@ -1,4 +1,4 @@
-15:08:09 **** Incremental Build of configuration Debug for project Filter ****
+16:00:12 **** Incremental Build of configuration Debug for project Filter ****
 make -j4 all 
 Building file: ../src/MainTask.c
 Invoking: MCU GCC Compiler
@@ -27,8 +27,8 @@ Generating binary and Printing size information:
 arm-none-eabi-objcopy -O binary "Filter.elf" "Filter.bin"
 arm-none-eabi-size "Filter.elf"
    text	   data	    bss	    dec	    hex	filename
- 121240	   2584	 172212	 296036	  48464	Filter.elf
+ 121200	   2584	 172212	 295996	  4843c	Filter.elf
  
 
-15:08:12 Build Finished (took 3s.169ms)
+16:00:16 Build Finished (took 3s.277ms)
 

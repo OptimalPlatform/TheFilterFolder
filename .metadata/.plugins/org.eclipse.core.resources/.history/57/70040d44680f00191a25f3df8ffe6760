@@ -204,6 +204,7 @@ void MainTask(void) {
 			//for wienerfiltering
 			GUI_Clear();
 			GUI_DispStringAt("Not Yet Implemented", 20, 20);
+			GUI_Delay(200);
 			break;
 		case 'N':
 			//No filtering applied, in = out
@@ -212,6 +213,9 @@ void MainTask(void) {
 			which_filter = 'A';
 			break;
 	}
+
+		GUI_Clear();
+		GUI_DispStringAt("Nehe", 20, 20);
 		GUI_Delay(200);
 		GUI_Exit();
 

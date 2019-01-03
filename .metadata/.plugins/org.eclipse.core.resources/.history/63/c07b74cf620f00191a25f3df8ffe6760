@@ -66,12 +66,19 @@ void MainTask(void) {
 
 		case 'W':
 			//WienerMenu(&fState);
-			fState.doneFlag = 1;
+			GUI_Clear();
+			GUI_DispStringAt("Not Yet Implemented", 20, 20);
+			while (1)
+				;
 			break;
 
 		case 'N':
 			//No filter
-			fState.doneFlag = 1;
+			which_filter = 'N';
+			GUI_Clear();
+			GUI_DispStringAt("No Filter Applied", 20, 20);
+			while (1)
+				;
 			break;
 
 		case 'K':
@@ -179,26 +186,22 @@ void MainTask(void) {
 		GUI_Delay(200);
 	}
 
-
 	//translates the values from the interface to the actuall filters
-	switch (fState.filterType)
-	{
-		case 'K':
-			switch (fState.filterOrder)
-			{
-				case 1:
-					//1Dfilter not float at the moment
-					break;
-				case 2:
-					which_filter = 'E';
-					break;
-				case 3:
-					which_filter = 'I';
-					break;
-				case 4:
-					which_filter = 'J';
-					break;
-			}
+	switch (fState.filterType) {
+	case 'K':
+		switch (fState.filterOrder) {
+		case 1:
+			//1Dfilter not float at the moment
+			break;
+		case 2:
+			which_filter = 'E';
+			break;
+		case 3:
+			which_filter = 'I';
+			break;
+		case 4:
+			which_filter = 'J';
+			break;
 			break;
 		case 'W':
 			//for wienerfiltering
@@ -211,14 +214,15 @@ void MainTask(void) {
 			GUI_DispStringAt("No Filter Applied", 20, 20);
 			which_filter = 'A';
 			break;
-	}
+		}
+
+		GUI_Clear();
 		GUI_Delay(200);
 		GUI_Exit();
 
-		initADC_DAC(ADC1InBuff, ADC2InBuff, ADC3InBuff, DAC1OutBuff,
-				DAC2OutBuff, BUFFER_SIZE);
+		initADC_DAC(ADC1InBuff, ADC2InBuff, ADC3InBuff, DAC1OutBuff, DAC2OutBuff,BUFFER_SIZE);
 
-		//the struct that is feed to the filter
+		//the sturct that is feed to the
 		struct Params fParams;
 
 		fParams.x_pred[0] = fState.initValue;
@@ -320,9 +324,10 @@ void MainTask(void) {
 					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
 			break;
 
-		default:
-			;
+		default:;
 			//print_error_on_screen();
 		}
-		while (1);
+
+		while (1)	;
+	}
 }

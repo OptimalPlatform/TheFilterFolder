@@ -66,6 +66,9 @@ void MainTask(void) {
 
 		case 'W':
 			//WienerMenu(&fState);
+			GUI_Clear();
+			GUI_DispStringAt(20,20,"hej");
+			GUI_Delay(500);
 			fState.doneFlag = 1;
 			break;
 
@@ -179,26 +182,22 @@ void MainTask(void) {
 		GUI_Delay(200);
 	}
 
-
 	//translates the values from the interface to the actuall filters
-	switch (fState.filterType)
-	{
-		case 'K':
-			switch (fState.filterOrder)
-			{
-				case 1:
-					//1Dfilter not float at the moment
-					break;
-				case 2:
-					which_filter = 'E';
-					break;
-				case 3:
-					which_filter = 'I';
-					break;
-				case 4:
-					which_filter = 'J';
-					break;
-			}
+	switch (fState.filterType) {
+	case 'K':
+		switch (fState.filterOrder) {
+		case 1:
+			//1Dfilter not float at the moment
+			break;
+		case 2:
+			which_filter = 'E';
+			break;
+		case 3:
+			which_filter = 'I';
+			break;
+		case 4:
+			which_filter = 'J';
+			break;
 			break;
 		case 'W':
 			//for wienerfiltering
@@ -211,7 +210,10 @@ void MainTask(void) {
 			GUI_DispStringAt("No Filter Applied", 20, 20);
 			which_filter = 'A';
 			break;
-	}
+		}
+
+		GUI_Clear();
+		GUI_DispStringAt("Nehe", 20, 20);
 		GUI_Delay(200);
 		GUI_Exit();
 
@@ -324,5 +326,8 @@ void MainTask(void) {
 			;
 			//print_error_on_screen();
 		}
-		while (1);
+
+		while (1)
+			;
+	}
 }
