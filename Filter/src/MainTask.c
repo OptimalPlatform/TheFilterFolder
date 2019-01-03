@@ -212,7 +212,9 @@ void MainTask(void) {
 			which_filter = 'A';
 			break;
 	}
+
 		GUI_Delay(200);
+		GUI_Clear();
 		GUI_Exit();
 
 		initADC_DAC(ADC1InBuff, ADC2InBuff, ADC3InBuff, DAC1OutBuff,
