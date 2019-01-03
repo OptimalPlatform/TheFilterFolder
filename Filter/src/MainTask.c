@@ -216,6 +216,12 @@ void MainTask(void) {
 			break;
 		}
 
+		GUI_Clear();
+		GUI_Delay(200);
+		GUI_Exit();
+
+		initADC_DAC(ADC1InBuff, ADC2InBuff, ADC3InBuff, DAC1OutBuff, DAC2OutBuff,BUFFER_SIZE);
+
 		//the sturct that is feed to the
 		struct Params fParams;
 
