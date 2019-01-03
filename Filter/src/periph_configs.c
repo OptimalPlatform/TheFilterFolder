@@ -14,78 +14,77 @@ static void DMA1_config(DMA_Stream_TypeDef* hdma, uint32_t* dest, uint16_t* src,
 void initADC_DAC(uint16_t *bufferIn1, uint16_t *bufferIn2, uint16_t *bufferIn3,
 					uint16_t *bufferOut1, uint16_t *bufferOut2, uint16_t bufferSize)
 {
+
 	/****** Timer 8 config. ******/
 	// TIM8 clock enable
-	RCC->APB2ENR |= (1 << 1);
+	//RCC->APB2ENR |= (1 << 1);
 	// Update event is selected as trigger output (TRGO) (Overflow in this case)
-	TIM8->CR2 |= (1 << 5);
+	//TIM8->CR2 |= (1 << 5);
 	// Prescaler
-	TIM8->PSC = 180-1; // APB2 clock freq. is 90MHz so this gives a tim freq. of 1MHz
+	//TIM8->PSC = 180-1; // APB2 clock freq. is 90MHz so this gives a tim freq. of 1MHz
 	// Auto reload
-	TIM8->ARR = 20; // This gives a sampling freq. of 50kHz
+	//TIM8->ARR = 20; // This gives a sampling freq. of 50kHz
 	// Enable counter
-	TIM8->CR1 |= (1 << 0);
+	///IM8->CR1 |= (1 << 0);
 
 	/****** GPIO config. ******/
 	// GPIOC and GPIOA clock enable
-	RCC->AHB1ENR |= (1 << 2) | (1 << 0);
+	//RCC->AHB1ENR |= (1 << 2) | (1 << 0);
 	// Configure GPIO’s for analog mode
 	// Outputs for DAC's
-	GPIOA->MODER |= (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8);
+	//GPIOA->MODER |= (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8);
 	// Inputs for ADC's
-	GPIOC->MODER |= (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 7) | (1 << 6) |
-					(1 << 5) | (1 << 4) | (1 << 3) | (1 << 2) | (1 << 1) | (1 << 0);
+	//GPIOC->MODER |= (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 7) | (1 << 6) |	(1 << 5) | (1 << 4) | (1 << 3) | (1 << 2) | (1 << 1) | (0 << 0);
 	/******/
 
-	/****** ADC’s config. *****/
+/****** ADC’s config. *****/
 	/*** This affects all ADC's ***/
 	// ADC1, ADC2 and ADC3 clock enable
-	RCC->APB2ENR |= (1 << 10) | (1 << 9) | (1 << 8);
+	//RCC->APB2ENR |= (1 << 10) | (1 << 9) | (1 << 8);
 	// ADC prescaler = /8
-	ADC->CCR |= (1 << 17);
+	//ADC->CCR |= (1 << 17);
 	/***/
-	ADC_config(ADC1, 1);
-	ADC_config(ADC2, 2);
-	ADC_config(ADC3, 3);
+	//ADC_config(ADC1, 1);
+	//ADC_config(ADC2, 2);
+	//ADC_config(ADC3, 3);
 
 	/******/
 
 	/****** DMA2 config. (periph. -> memory)******/
 	// DMA1 and DMA2 clock enable
-	RCC->AHB1ENR |= (1 << 22) | (1 << 21);
+	//RCC->AHB1ENR |= (1 << 22) | (1 << 21);
 	// Stream 0 -> channel 0, Stream 2 -> channel 1, Stream 1 -> channel 2
-	DMA2_Stream0->CR |= 0;
-	DMA2_Stream2->CR |= 1;
-	DMA2_Stream1->CR |= 2;
-	DMA2_config(DMA2_Stream0, ADC1, bufferIn1, bufferSize);
-	DMA2_config(DMA2_Stream2, ADC2, bufferIn2, bufferSize);
-	DMA2_config(DMA2_Stream1, ADC3, bufferIn3, bufferSize);
+	//DMA2_Stream0->CR |= 0;
+	//DMA2_Stream2->CR |= 1;
+	//DMA2_Stream1->CR |= 2;
+	//DMA2_config(DMA2_Stream0, ADC1, bufferIn1, bufferSize);
+	//DMA2_config(DMA2_Stream2, ADC2, bufferIn2, bufferSize);
+	//DMA2_config(DMA2_Stream1, ADC3, bufferIn3, bufferSize);
 
 	// Enable global interrupt for DMA2 stream 0
-	NVIC_SetPriorityGrouping(2);
-	NVIC_SetPriority (DMA2_Stream0_IRQn, 1);
-	NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+	//NVIC_SetPriorityGrouping(2);
+	//NVIC_SetPriority (DMA2_Stream0_IRQn, 1);
+	//NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 	// Enable global interrupt for DMA2 stream 2
-	NVIC_SetPriorityGrouping(2);
-	NVIC_SetPriority (DMA2_Stream2_IRQn, 2);
-	NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+	//NVIC_SetPriorityGrouping(2);
+	//NVIC_SetPriority (DMA2_Stream2_IRQn, 2);
+	//NVIC_EnableIRQ(DMA2_Stream2_IRQn);
 	// Enable global interrupt for DMA2 stream 1
-	NVIC_SetPriorityGrouping(2);
-	NVIC_SetPriority (DMA2_Stream1_IRQn, 3);
-	NVIC_EnableIRQ(DMA2_Stream1_IRQn);
+	//NVIC_SetPriorityGrouping(2);
+	//NVIC_SetPriority (DMA2_Stream1_IRQn, 3);
+	//NVIC_EnableIRQ(DMA2_Stream1_IRQn);
 
-	/****** DAC config. ******/
+/****** DAC config. ******/
 	// DAC clock enable
-	RCC->APB1ENR |= (1 << 29);
+	//RCC->APB1ENR |= (1 << 29);
 	// TIM8 TRGO as trigger source, trigger enable, enable channels,
-	DAC->CR |= (1 << 19) | (1 << 3) | (1 << 18) | (1 << 2) | (1 << 16) | (1 << 0);
+	//DAC->CR |= (1 << 19) | (1 << 3) | (1 << 18) | (1 << 2) | (1 << 16) | (1 << 0);
 	// DMA enable
-	DAC->CR |= (1 << 28) | (1 << 12);
+	//DAC->CR |= (1 << 28) | (1 << 12);
 
 	/****** DMA1 config. (memory -> periph.) ******/
-	DMA1_config(DMA1_Stream5, (uint32_t*)&DAC->DHR12R1, bufferOut1, bufferSize);
-	DMA1_config(DMA1_Stream6, (uint32_t*)&DAC->DHR12R2, bufferOut2, bufferSize);
-
+	//DMA1_config(DMA1_Stream5, (uint32_t*)&DAC->DHR12R1, bufferOut1, bufferSize);
+	//DMA1_config(DMA1_Stream6, (uint32_t*)&DAC->DHR12R2, bufferOut2, bufferSize);
 }
 
 static void ADC_config(ADC_TypeDef* hadc, uint8_t adc)
