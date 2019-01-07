@@ -1,0 +1,109 @@
+/*
+ * conffimWin.c
+ *
+ *  Created on: 7 jan. 2019
+ *      Author: Olof
+ */
+
+#include "main.h"
+#include "DIALOG.h"
+#include "GUI.h"
+#include <stdlib.h>
+
+uint8_t doneFlag;
+float32_t filterOrder;
+float32_t initMSE;
+float32_t initValue;
+
+float32_t C_u;
+float32_t C_w;
+
+float32_t  a_1;
+float32_t  a_2;
+float32_t  a_3;
+float32_t  a_4;
+
+float32_t b_1;
+float32_t  b_2;
+float32_t b_3;
+float32_t  b_4;
+
+static void _cbDialogConfirmWin(WM_MESSAGE * pMsg) {
+	int i, NCode, Id, Pressed = 0;
+	WM_HWIN hDlg, hItem;
+	hDlg = pMsg->hWin;
+	switch (pMsg->MsgId) {
+	case WM_PAINT:
+		GUI_SetBkColor(0x000000);
+		GUI_Clear();
+	break;
+
+	case WM_INIT_DIALOG:
+		for (i = 0; i <= GUI_COUNTOF(_aDialogConfirmWin); i++) {
+			hItem = WM_GetDialogItem(hDlg, GUI_ID_USER + i);
+			BUTTON_SetFocussable(hItem, 1); // Set all buttons focussable
+		}
+		GUI_Clear();
+		GUI_SetFont(&GUI_Font16_ASCII);
+		GUI_DispStringAt("init x",20,20);
+		Disp_DispDecAt
+		break;
+
+	case WM_NOTIFY_PARENT:
+		Id = WM_GetId(pMsg->hWinSrc); // Id of widget
+		NCode = pMsg->Data.v; // Notification code
+		int Key = 0;
+
+		switch (NCode) {
+			case WM_NOTIFICATION_RELEASED:
+				if (Id == GUI_ID_USER + 0) {
+
+			GUI_SendKeyMsg(Key, Pressed); // Send a key message to the focussed window
+			break;
+
+		case WM_NOTIFICATION_CLICKED:
+			Pressed = 1;
+			break;
+		}
+		break;
+
+		default:
+		WM_DefaultProc(pMsg);
+	}
+}
+
+uint8_t doneFlag
+void ConfirmMenu(struct FilterState* fState) {
+	WM_HWIN hMenu;
+	doneFlag = fState->doneFlag;;
+	filterOrder = fState->filterOrder;
+	initMSE = fState->initMSE;
+	initValue = fState->initValue;
+
+	C_u = fState->R_1;
+	C_w = fState->R_2;
+
+	a_1 = fState->a_1;
+	a_2 = fState->a_2;
+	a_3  = fState->a_3;
+	a_4 = fState->a_4;
+
+	b_1 = fState->b_1;
+	b_2 = fState->b_2;
+	b_3 = fState->b_3;
+	b_4 = fState->b_4;
+
+	 GUI_SelectLayer(0);
+
+	hMenu = GUI_CreateDialogBox(_aDialogConfrimWin, GUI_COUNTOF(_aDialogConfirmWin), _cbDialogConfirmWin, WM_HBKWIN, 0, 0);
+
+	WM_SetCallback(hMenu, _cbDialogConfirmWin);
+	WIDGET_SetFocusable(hMenu, 1);
+
+	while (doneFlag == 0)
+	{
+		GUI_Delay(200);
+	}
+
+	fState->doneFlag = doneFlag;
+}

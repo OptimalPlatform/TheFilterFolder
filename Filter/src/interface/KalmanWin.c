@@ -69,34 +69,42 @@ static void _cbDialogKalmanWin(WM_MESSAGE * pMsg) {
 		switch (NCode) {
 			case WM_NOTIFICATION_RELEASED:
 				if (Id == GUI_ID_USER + 0) {
-					filterState = 'X';
-					doneFlag = 1;
-					GUI_EndDialog(hDlg, 1);
-				} else if (Id == GUI_ID_USER + 1) {
+					//MSE
 					filterState = 'M';
 					doneFlag = 1;
 					GUI_EndDialog(hDlg, 1);
+				} else if (Id == GUI_ID_USER + 1) {
+					//x
+					filterState = 'X';
+					doneFlag = 1;
+					GUI_EndDialog(hDlg, 1);
 				} else if (Id == GUI_ID_USER + 2) {
+					//C_u
 					filterState = 'R';
 					doneFlag = 1;
 					GUI_EndDialog(hDlg, 1);
 				} else if (Id == GUI_ID_USER + 3) {
+					//c_w
 					filterState = 'Q';
 					doneFlag = 1;
 					GUI_EndDialog(hDlg, 1);
 				} else if (Id == GUI_ID_USER + 4) {
+					//done
 					filterState = 'G';
 					doneFlag = 1;
 					GUI_EndDialog(hDlg, 1);
 				} else if (Id == GUI_ID_USER + 5) {
+					//order
 					filterState = 'O';
 					doneFlag = 1;
 					GUI_EndDialog(hDlg,0);
 				} else if (Id == GUI_ID_USER + 6) {
+					//a vec
 					filterState = 'a';
 					doneFlag = 1;
 					GUI_EndDialog(hDlg,1);
 				} else if (Id == GUI_ID_USER + 7) {
+					// b vec
 					filterState = 'b';
 					doneFlag = 1;
 					GUI_EndDialog(hDlg,1);

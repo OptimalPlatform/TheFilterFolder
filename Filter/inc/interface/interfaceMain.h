@@ -30,6 +30,8 @@ struct FilterState
 };
 
 
+//void confirmationWin(struct FilterState* fState);
+void confirmWin(struct FilterState* fState);
 void FilterChoice(struct FilterState* fState);
 void KalmanMenu(struct FilterState* fState);
 void WienerMenu(struct FilterState* fState);

@@ -8,6 +8,7 @@ C_SRCS += \
 ../src/interface/KalmanWin.c \
 ../src/interface/aVecWin.c \
 ../src/interface/bVecWin.c \
+../src/interface/conffimWin.c \
 ../src/interface/filterChoicewin.c \
 ../src/interface/keypad.c 
 
@@ -16,6 +17,7 @@ OBJS += \
 ./src/interface/KalmanWin.o \
 ./src/interface/aVecWin.o \
 ./src/interface/bVecWin.o \
+./src/interface/conffimWin.o \
 ./src/interface/filterChoicewin.o \
 ./src/interface/keypad.o 
 
@@ -24,6 +26,7 @@ C_DEPS += \
 ./src/interface/KalmanWin.d \
 ./src/interface/aVecWin.d \
 ./src/interface/bVecWin.d \
+./src/interface/conffimWin.d \
 ./src/interface/filterChoicewin.d \
 ./src/interface/keypad.d 
 

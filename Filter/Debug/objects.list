@@ -156,6 +156,7 @@
 "src/interface/KalmanWin.o"
 "src/interface/aVecWin.o"
 "src/interface/bVecWin.o"
+"src/interface/conffimWin.o"
 "src/interface/filterChoicewin.o"
 "src/interface/keypad.o"
 "src/main.o"
