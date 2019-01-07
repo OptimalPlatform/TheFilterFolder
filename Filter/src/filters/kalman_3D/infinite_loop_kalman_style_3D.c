@@ -47,7 +47,7 @@ void infinite_loop_kalman_style_3D(	volatile uint8_t* ADC1HalfBuffer, volatile u
 	/* 			End of debug area 			*/
 	/* ____________________________________	*/
 
-//	data3D_debug(&Data,&Parameters); // This is NOT a debug function!
+	data3D_debug(&Data,Parameters); // This is NOT a debug function!
 
 	matrix_initialize_3D(&Matrix_Data, &Data, dim);
 

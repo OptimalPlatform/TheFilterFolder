@@ -32,6 +32,40 @@ uint8_t GUI_Initialized = 0;
 TIM_HandleTypeDef TimHandle;
 uint32_t uwPrescalerValue = 0;
 
+
+#define BUFFER_SIZE 200
+
+// ADC buffer flags
+volatile uint8_t ADC1HalfBuffer = 0;
+volatile uint8_t ADC1FullBuffer = 0;
+volatile uint8_t ADC2HalfBuffer = 0;
+volatile uint8_t ADC2FullBuffer = 0;
+volatile uint8_t ADC3HalfBuffer = 0;
+volatile uint8_t ADC3FullBuffer = 0;
+
+// Buffers for ADC's and DAC'
+uint16_t ADC1InBuff[BUFFER_SIZE];
+uint16_t ADC2InBuff[BUFFER_SIZE];
+uint16_t ADC3InBuff[BUFFER_SIZE];
+uint16_t DAC1OutBuff[BUFFER_SIZE];
+uint16_t DAC2OutBuff[BUFFER_SIZE];
+
+// Buffers for Application
+uint16_t appBuff[BUFFER_SIZE];
+
+//callback function for the background
+
+static void _cbDesktop(WM_MESSAGE * pMsg) {
+	switch (pMsg->MsgId) {
+	case WM_PAINT:
+		GUI_SetBkColor(GUI_BLACK);
+		GUI_Clear();
+		GUI_SetFont(&GUI_Font24_ASCII);
+		GUI_DispStringAt("Loading...", 20, 20);
+		break;
+	}
+}
+
 // ===========================================
 
 int main(void) {
@@ -68,7 +102,6 @@ int main(void) {
 	/* Start Channel1 */
 	if (HAL_TIM_Base_Start_IT(&TimHandle) != HAL_OK) {
 		while (1) {
-
 		}
 	}
 
@@ -80,7 +113,7 @@ int main(void) {
 	GUI_Initialized = 1;
 
 	/* Activate the use of memory device feature */
-	WM_SetCreateFlags(WM_CF_MEMDEV);
+	//WM_SetCreateFlags(WM_CF_MEMDEV);
 
 	MainTask();
 
@@ -195,13 +228,11 @@ static void BSP_Config(void) {
 
 	/* Initialize the Touch screen */
 	if (BSP_TS_Init(240, 320) != TS_OK) {
-		while (1)
-			;
+		while (1);
 	}
 
 	/* Enable the CRC Module */
-	__HAL_RCC_CRC_CLK_ENABLE()
-	;
+	__HAL_RCC_CRC_CLK_ENABLE();
 }
 
 /**
@@ -301,4 +332,348 @@ static void SystemClock_Config(void) {
 	// SysTick_IRQn interrupt configuration
 	HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
 }
+
+
+void MainTask(void) {
+	//initializes the filterState struct
+//	struct arm_matrix_instance_f32 matmat;
+
+	struct FilterState fState;
+	fState.doneFlag = 0;
+	fState.filterType = 'I';
+	fState.filterState = 'I';
+	fState.filterOrder = 2;
+	fState.initMSE = 0;
+	fState.initValue = 0;
+	fState.vecInd = 6;
+
+	fState.R_1 = 0;
+	fState.R_2 = 0;
+
+	fState.a_1 = 0;
+	fState.a_2 = 0;
+	fState.a_3 = 0;
+	fState.a_4 = 0;
+
+	fState.b_1 = 1;
+	fState.b_2 = 0;
+	fState.b_3 = 0;
+	fState.b_4 = 0;
+
+	char which_filter;
+
+	//Sets the callback for desktop
+	WM_SetCallback(WM_HBKWIN, _cbDesktop);
+
+	//Loads and executes the desktop
+	GUI_Delay(200);
+
+	while (fState.doneFlag == 0) {
+		switch (fState.filterType) {
+		case 'I':
+			//Menu for choosing filterype
+			FilterChoice(&fState);
+			break;
+
+		case 'W':
+			//WienerMenu(&fState);
+			fState.doneFlag = 1;
+			break;
+
+		case 'N':
+			//No filter
+			fState.doneFlag = 1;
+			break;
+
+		case 'K':
+			switch (fState.filterState) {
+			case 'I':
+				KalmanMenu(&fState);
+				break;
+
+			case 'X':
+				fState.initValue = keypad();
+				fState.filterState = 'I';
+				break;
+
+			case 'M':
+				fState.initMSE = keypad();
+				fState.filterState = 'I';
+				break;
+
+			case 'R':
+				fState.R_1 = keypad();
+				fState.filterState = 'I';
+				break;
+
+			case 'Q':
+				fState.R_2 = keypad();
+				fState.filterState = 'I';
+				break;
+
+			case 'O':
+				fState.filterOrder = (int) keypad();
+				fState.filterState = 'I';
+				break;
+
+			case 'a':
+				switch (fState.vecInd) {
+				case 6:
+					aVecMenu(&fState);
+					break;
+
+				case 1:
+					fState.a_1 = keypad();
+					fState.vecInd = 6;
+					break;
+
+				case 2:
+					fState.a_2 = keypad();
+					fState.vecInd = 6;
+					break;
+
+				case 3:
+					fState.a_3 = keypad();
+					fState.vecInd = 6;
+					break;
+
+				case 4:
+					fState.a_4 = keypad();
+					fState.vecInd = 6;
+					break;
+				case 0:
+					fState.vecInd = 6;
+					fState.filterState = 'I';
+				}
+				fState.doneFlag = 0;
+				break;
+
+			case 'b':
+				switch (fState.vecInd) {
+				case 6:
+					bVecMenu(&fState);
+					break;
+
+				case 1:
+					fState.b_1 = keypad();
+					fState.vecInd = 6;
+					break;
+
+				case 2:
+					fState.b_2 = keypad();
+					fState.vecInd = 6;
+					break;
+
+				case 3:
+					fState.b_3 = keypad();
+					fState.vecInd = 6;
+					break;
+
+				case 4:
+					fState.b_4 = keypad();
+					fState.vecInd = 6;
+					break;
+				case 0:
+					fState.vecInd = 6;
+					fState.filterState = 'I';
+					break;
+				}
+				fState.doneFlag = 0;
+				break;
+
+			case 'G':
+				fState.doneFlag = 2;
+				break;
+			}
+			break;
+		}
+		GUI_Delay(200);
+	}
+
+	//translates the values from the interface to the actuall filters
+	switch (fState.filterType)
+	{
+		case 'K':
+			switch (fState.filterOrder)
+			{
+				case 1:
+					//1Dfilter not float at the moment
+					break;
+				case 2:
+					which_filter = 'E';
+					break;
+				case 3:
+					which_filter = 'I';
+					break;
+				case 4:
+					which_filter = 'J';
+					break;
+			}
+			break;
+		case 'W':
+			//for wienerfiltering
+			GUI_Clear();
+			GUI_DispStringAt("Not Yet Implemented", 20, 20);
+			break;
+		case 'N':
+			//No filtering applied, in = out
+			GUI_Clear();
+			GUI_DispStringAt("No Filter Applied", 20, 20);
+			which_filter = 'A';
+			break;
+	}
+
+		GUI_Delay(200);
+		GUI_Clear();
+		GUI_Exit();
+		GUI_Delay(1000);
+
+		//frees up a part of the SDRAM that is used bu the interface but needed by the filter
+		static SDRAM_HandleTypeDef SdramHandle;
+		 BSP_SDRAM_MspDeInit(&SdramHandle, (void *)NULL);
+
+		initADC_DAC(ADC1InBuff, ADC2InBuff, ADC3InBuff, DAC1OutBuff, DAC2OutBuff, BUFFER_SIZE);
+
+		//the struct that is feed to the filter
+
+		struct Params fParams;
+/*
+		fParams.x_pred[0] = fState.initValue;
+		fParams.x_pred[1] = fState.initValue;
+		fParams.x_pred[2] = fState.initValue;
+		fParams.x_pred[3] = fState.initValue;
+
+		fParams.a[0] = 1;
+		fParams.a[1] = fState.a_1;
+		fParams.a[2] = fState.a_2;
+		fParams.a[3] = fState.a_3;
+		fParams.a[4] = fState.a_4;
+
+		fParams.b[0] = fState.b_1;
+		fParams.b[1] = fState.b_2;
+		fParams.b[2] = fState.b_3;
+		fParams.b[3] = fState.b_4;
+
+		fParams.MSE_pred = fState.initMSE;
+
+		fParams.C_u = fState.R_1;
+		fParams.C_w = fState.R_2;
+*/
+		//debugg
+		//which_filter = 'E';
+
+		// x_pred 		Dynamic variable
+		fParams.x_pred[0] = 0;
+		fParams.x_pred[1] = 0;
+		fParams.x_pred[2] = 0;
+		fParams.x_pred[3] = 0;
+
+		// A 			Static variable
+		fParams.a[0] = 1;
+		fParams.a[1] = -0.8;
+		fParams.a[2] = -0.2;
+		fParams.a[3] = -0.01;
+		fParams.a[4] = 0.05;
+
+		// B			Static variable
+		fParams.b[0] = 0.100;
+		fParams.b[1] = 0.025;
+		fParams.b[2] = 0.010;
+		fParams.b[3] = 0.005;
+
+		// MSE_pred		Dynamic variable
+		fParams.MSE_pred = 100;
+
+		// C_w;			Static variable
+		fParams.C_w = 4;
+
+		// C_u;			Static variable
+		fParams.C_u = 1;
+
+
+		switch (which_filter) {
+		// Case 'S' works. //
+		case 'A':
+			infinite_loop_simple_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+			// Case 'X' works. //
+		case 'B':
+			infinite_loop_struct_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+			// Case 'K' does work (but with constant transition and measurement matrix).	//
+		case 'C':
+			infinite_loop_kalman_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
+			break;
+
+			// Case 'I' not tested yet	(Subtracts the offset and deals with negative values)	//
+			// Remember to change the offset value! //
+		case 'D':
+			infinite_loop_kalman_style_int(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+			// Case 'A' not yet implemented . (Extension of case 'I') //
+		case 'E':
+			infinite_loop_kalman_style_2D(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
+			break;
+
+			// Case 'M' not yet implemented.  //
+		case 'F':
+			infinite_loop_matrix_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+		case 'G':
+			infinite_loop_dynamic_style(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+		case 'H':
+			infinite_loop_kalman_style_MD_static(&ADC1HalfBuffer,
+					&ADC1FullBuffer, &ADC2HalfBuffer, &ADC2FullBuffer,
+					&ADC3HalfBuffer, &ADC3FullBuffer, ADC1InBuff, ADC2InBuff,
+					ADC3InBuff, DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE);
+			break;
+
+		case 'I':
+			infinite_loop_kalman_style_3D(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
+			break;
+
+		case 'J':
+			infinite_loop_kalman_style_4D(&ADC1HalfBuffer, &ADC1FullBuffer,
+					&ADC2HalfBuffer, &ADC2FullBuffer, &ADC3HalfBuffer,
+					&ADC3FullBuffer, ADC1InBuff, ADC2InBuff, ADC3InBuff,
+					DAC1OutBuff, DAC2OutBuff, appBuff, BUFFER_SIZE, &fParams);
+			break;
+
+		default:
+			;
+			//print_error_on_screen();
+		}
+		while (1);
+}
+
 

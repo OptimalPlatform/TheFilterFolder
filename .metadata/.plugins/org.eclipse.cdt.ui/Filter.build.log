@@ -1,6 +1,6 @@
-16:04:27 **** Incremental Build of configuration Debug for project Filter ****
+13:38:50 **** Incremental Build of configuration Debug for project Filter ****
 make -j4 all 
 make: Nothing to be done for 'all'.
 
-16:04:27 Build Finished (took 946ms)
+13:38:51 Build Finished (took 948ms)
 

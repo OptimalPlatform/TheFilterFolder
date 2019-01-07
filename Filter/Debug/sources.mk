@@ -41,7 +41,6 @@ Utilities/Components/ts3510 \
 Utilities/Components/wm8994 \
 Utilities/Log \
 Utilities/STM32F429I-Discovery \
-src \
 src/filters/dynamic \
 src/filters/kalman_1D \
 src/filters/kalman_1D_int \
@@ -54,5 +53,6 @@ src/filters/simple \
 src/filters/struct \
 src/filters/utilities \
 src/interface \
+src \
 startup \
 
