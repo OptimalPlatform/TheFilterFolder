@@ -35,7 +35,7 @@ void infinite_loop_kalman_style(	volatile uint8_t* ADC1HalfBuffer, volatile uint
 									uint16_t* ADC1InBuff, uint16_t* ADC2InBuff,
 									uint16_t* ADC3InBuff, uint16_t* DAC1OutBuff,
 									uint16_t* DAC2OutBuff, uint16_t* appBuff,
-									uint32_t BUFFER_SIZE, struct Params* Paramters) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
+									uint32_t BUFFER_SIZE, struct Params* Parameters) // Should BUFFER_SIZE really be 32 long. The for loops below are 16 long.
 {
 
 	struct Data1D Data;
@@ -47,15 +47,15 @@ void infinite_loop_kalman_style(	volatile uint8_t* ADC1HalfBuffer, volatile uint
 
 	// Dynamic variables
 	Data.x_est = 1;
-	Data.x_pred = 0;
-	Data.MSE_pred = 1;
+	Data.x_pred = Parameters->x_pred[0];
+	Data.MSE_pred = Parameters->MSE_pred;
 
 	// Fixed variables
-	Data.A = 1; // Should A not be a sinusoid here?
-	Data.B = 1;
+	Data.A = Parameters->a[1];
+	Data.B = Parameters->b[1];
 	Data.H = 1;
-	Data.C_w = 4;
-	Data.C_u = 1;
+	Data.C_w = Parameters->C_w;
+	Data.C_u = Parameters->C_u;
 
 	// End of debug part ========================================
 

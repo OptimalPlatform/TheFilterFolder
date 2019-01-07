@@ -36,8 +36,8 @@ float concanate(float x, int y);
 
 //Constant
 float num; //value on display
-int8_t numSign = 1; //1 for + -1 for -
-uint8_t doneFlag = 0;
+int8_t numSign; //1 for + -1 for -
+uint8_t doneFlag;
 //int decFlag = 1; // 1 for normal 0 for dec mode
 /*********************************************************************
  *
@@ -170,6 +170,7 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
 int keypad(void) {
 	WM_HWIN hNumPad;
 	doneFlag = 0;
+	numSign = 1;
 	num = 0;
 	GUI_SelectLayer(0);
 

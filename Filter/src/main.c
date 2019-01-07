@@ -343,20 +343,20 @@ void MainTask(void) {
 	fState.filterType = 'I';
 	fState.filterState = 'I';
 	fState.filterOrder = 2;
-	fState.initMSE = 0;
+	fState.initMSE = 100;
 	fState.initValue = 0;
-	fState.vecInd = 6;
+	fState.vecInd = 6; //handles which a or b vector element is being manipulated
 
-	fState.R_1 = 0;
-	fState.R_2 = 0;
+	fState.R_1 = 1;
+	fState.R_2 = 4;
 
-	fState.a_1 = 0;
-	fState.a_2 = 0;
+	fState.a_1 = -0.8;
+	fState.a_2 = -0.2;
 	fState.a_3 = 0;
 	fState.a_4 = 0;
 
-	fState.b_1 = 1;
-	fState.b_2 = 0;
+	fState.b_1 = 0.1;
+	fState.b_2 = 0.25;
 	fState.b_3 = 0;
 	fState.b_4 = 0;
 
@@ -497,7 +497,7 @@ void MainTask(void) {
 			switch (fState.filterOrder)
 			{
 				case 1:
-					//1Dfilter not float at the moment
+					which_filter = 'C';
 					break;
 				case 2:
 					which_filter = 'E';
@@ -537,7 +537,7 @@ void MainTask(void) {
 		//the struct that is feed to the filter
 
 		struct Params fParams;
-/*
+
 		fParams.x_pred[0] = fState.initValue;
 		fParams.x_pred[1] = fState.initValue;
 		fParams.x_pred[2] = fState.initValue;
@@ -558,9 +558,10 @@ void MainTask(void) {
 
 		fParams.C_u = fState.R_1;
 		fParams.C_w = fState.R_2;
-*/
+
+/*
 		//debugg
-		//which_filter = 'E';
+		which_filter = 'A';
 
 		// x_pred 		Dynamic variable
 		fParams.x_pred[0] = 0;
@@ -589,7 +590,7 @@ void MainTask(void) {
 
 		// C_u;			Static variable
 		fParams.C_u = 1;
-
+*/
 
 		switch (which_filter) {
 		// Case 'S' works. //

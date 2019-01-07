@@ -13,7 +13,7 @@
 /*
  * It seems to work if you fix the H, MSE_pred and C_w values. Look into how MSE_pred changes!
  */
-float kalman_gain(uint16_t MSE_pred, uint16_t H, uint16_t C_w){
+float32_t kalman_gain(float32_t MSE_pred, float32_t H, float32_t C_w){
 	//H = 1;
 	//MSE_pred = 1;
 	//C_w = 4;
@@ -67,12 +67,12 @@ float kalman_gain(uint16_t MSE_pred, uint16_t H, uint16_t C_w){
  * 	Output:
  * 			None
  */
-void kalman_filter( struct Data1D* Data , uint16_t y )
+void kalman_filter( struct Data1D* Data , float32_t y )
 
 {
 	// Declarations
 	float K; // I suppose I need 32 here since the unsigned uses 16?
-	uint16_t MSE_est;
+	float32_t MSE_est;
 	//uint16_t x_est;
 
 	// The problem with the code is the math below.

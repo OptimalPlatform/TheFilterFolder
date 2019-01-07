@@ -23,8 +23,8 @@ static const GUI_WIDGET_CREATE_INFO _aDialogKalmanWin[] =
 				{ BUTTON_CreateIndirect, "Set modelorder", GUI_ID_USER + 5, 5, 5,225, 35 },
 				{ BUTTON_CreateIndirect, "Set init MSE", GUI_ID_USER	+ 0, 5, 45, 225, 35 },
 				{ BUTTON_CreateIndirect, "Set init x", GUI_ID_USER + 1, 5, 85, 225, 35 },
-				{ BUTTON_CreateIndirect, "Set R_1",GUI_ID_USER + 2, 5, 125, 225, 35 },
-				{ BUTTON_CreateIndirect, "Set R_2",GUI_ID_USER + 3, 5, 165, 225, 35 },
+				{ BUTTON_CreateIndirect, "Set C_u",GUI_ID_USER + 2, 5, 125, 225, 35 },
+				{ BUTTON_CreateIndirect, "Set C_w",GUI_ID_USER + 3, 5, 165, 225, 35 },
 				{ BUTTON_CreateIndirect, "Set a vector", GUI_ID_USER + 6, 5, 205 ,225 ,35 },
 				{ BUTTON_CreateIndirect, "Set b vector", GUI_ID_USER + 7, 5, 245, 225, 35 },
 				{ BUTTON_CreateIndirect,"Start filtering",GUI_ID_USER + 4, 5, 285, 225, 35 }
