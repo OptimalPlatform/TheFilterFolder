@@ -566,7 +566,39 @@ void MainTask(void) {
 		fParams.C_u = fState.R_1;
 		fParams.C_w = fState.R_2;
 
-		//starts up the right filter, althought only A, C ,E, I. J is possible to choose from the interface
+/*
+		//debugg
+		which_filter = 'A';
+
+		// x_pred 		Dynamic variable
+		fParams.x_pred[0] = 0;
+		fParams.x_pred[1] = 0;
+		fParams.x_pred[2] = 0;
+		fParams.x_pred[3] = 0;
+
+		// A 			Static variable
+		fParams.a[0] = 1;
+		fParams.a[1] = -0.8;
+		fParams.a[2] = -0.2;
+		fParams.a[3] = -0.01;
+		fParams.a[4] = 0.05;
+
+		// B			Static variable
+		fParams.b[0] = 0.100;
+		fParams.b[1] = 0.025;
+		fParams.b[2] = 0.010;
+		fParams.b[3] = 0.005;
+
+		// MSE_pred		Dynamic variable
+		fParams.MSE_pred = 100;
+
+		// C_w;			Static variable
+		fParams.C_w = 4;
+
+		// C_u;			Static variable
+		fParams.C_u = 1;
+*/
+
 		switch (which_filter) {
 		// Case 'S' works. //
 		case 'A':
