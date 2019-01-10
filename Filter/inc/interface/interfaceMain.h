@@ -35,7 +35,7 @@ void confirmWin(struct FilterState* fState);
 void FilterChoice(struct FilterState* fState);
 void KalmanMenu(struct FilterState* fState);
 void WienerMenu(struct FilterState* fState);
-int keypad(void);
+int keypad(float32_t numIn);
 void aVecMenu(struct FilterState* fState);
 void bVecMenu(struct FilterState* fState);
 

@@ -8,23 +8,6 @@
 //#include "stdint.h" // To get uint16_t (Could also use inttypes.h)
 #include "kalman_filter.h"
 
-
-
-/*
- * It seems to work if you fix the H, MSE_pred and C_w values. Look into how MSE_pred changes!
- */
-float32_t kalman_gain(float32_t MSE_pred, float32_t H, float32_t C_w){
-	//H = 1;
-	//MSE_pred = 1;
-	//C_w = 4;
-	float K = (((float)H)*((float)MSE_pred)/( (float)(H*MSE_pred*H + C_w) ) );
-	return K;
-}
-
-
-
-
-
 /************************** Kalman Filter **************************/
 /*
  * Note: Vector notation is used here but the actual function only deals with scalars.
@@ -71,22 +54,20 @@ void kalman_filter( struct Data1D* Data , float32_t y )
 
 {
 	// Declarations
-	float K; // I suppose I need 32 here since the unsigned uses 16?
+	float32_t K; // I suppose I need 32 here since the unsigned uses 16?
 	float32_t MSE_est;
+	float32_t I = 1;
 	//uint16_t x_est;
-
-	// The problem with the code is the math below.
-	// I need to find a way of manipulating the data the right way.
-	// Maybe some variables shoud be considered doubles or something similiar.
-	// Should use float (32bit) and not double (64 bit).
 
 	// Measurement update:
 	//K = (float)((Data->MSE_pred) * (Data->H) * ((float)1.0)/( (float)((Data->H) * (Data->MSE_pred) * (Data->H) + (Data->C_w)) ));
 	//K = (float)( (Data->H) * (Data->MSE_pred)/( ((Data->H) * (Data->MSE_pred) * (Data->H) + (Data->C_w)) ));
 	//K = kalman_gain(Data->MSE_pred, Data->H, Data->C_w);
-	K = kalman_gain(Data->MSE_pred, Data->H, Data->C_w);
-	Data->x_est = (Data->x_pred) + (K*((int32_t)y - (int32_t)((Data->H) * (Data->x_pred)))); // Try changing K to 0.2 and it sort of works
-	MSE_est = (uint16_t)((1.0f - (K*((Data->H)))) * (Data->MSE_pred));
+
+	K = Data->H*Data->MSE_pred/(Data->H*Data->MSE_pred*Data->H + Data->C_w) ;
+
+	Data->x_est = (Data->x_pred) + (K*(y - ((Data->H) * (Data->x_pred)))); // Try changing K to 0.2 and it sort of works
+	MSE_est = ((I - (K*((Data->H)))) * (Data->MSE_pred));
 
 
 	// Time update:

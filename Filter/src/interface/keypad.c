@@ -167,7 +167,7 @@ static void _cbDialogNumPad(WM_MESSAGE * pMsg) {
  *
  *       MainTask
  */
-int keypad(void) {
+int keypad(float32_t numIn) {
 	WM_HWIN hNumPad;
 	doneFlag = 0;
 	numSign = 1;
@@ -185,8 +185,8 @@ int keypad(void) {
 	}
 		if (doneFlag == 2)
 	{
-		//resets num if cancel is pressed
-		num = 0;
+		//if cancel is pressed the number is not changed;
+			return numIn;
 	}
 	//return the set number, have to be devided by 1000 since we have 0.001 resolution
 	return num/1000;

@@ -342,8 +342,8 @@ void MainTask(void) {
 	fState.doneFlag = 0;
 	fState.filterType = 'I';
 	fState.filterState = 'I';
-	fState.filterOrder = 2;
-	fState.initMSE = -100;
+	fState.filterOrder = 1;
+	fState.initMSE = 100;
 	fState.initValue = 0;
 	fState.vecInd = 6; //handles which a or b vector element is being manipulated
 
@@ -397,27 +397,34 @@ void MainTask(void) {
 				break;
 
 			case 'X':
-				fState.initValue = keypad();
+				fState.initValue = keypad(fState.initValue);
 				fState.filterState = 'I';
 				break;
 
 			case 'M':
-				fState.initMSE = keypad();
+				fState.initMSE = keypad(fState.initMSE);
 				fState.filterState = 'I';
 				break;
 
 			case 'R':
-				fState.R_1 = keypad();
+				fState.R_1 = keypad(fState.R_1);
 				fState.filterState = 'I';
 				break;
 
 			case 'Q':
-				fState.R_2 = keypad();
+				fState.R_2 = keypad(fState.R_2);
 				fState.filterState = 'I';
 				break;
 
 			case 'O':
-				fState.filterOrder = (int) keypad();
+				fState.filterOrder = (int) keypad((float) fState.filterOrder);
+				if (fState.filterOrder < 1)
+				{
+					fState.filterOrder = 1;
+				} else if (fState.filterOrder > 4)
+				{
+					fState.filterOrder = 4;
+				}
 				fState.filterState = 'I';
 				break;
 
@@ -428,22 +435,22 @@ void MainTask(void) {
 					break;
 
 				case 1:
-					fState.a_1 = keypad();
+					fState.a_1 = keypad(fState.a_1);
 					fState.vecInd = 6;
 					break;
 
 				case 2:
-					fState.a_2 = keypad();
+					fState.a_2 = keypad(fState.a_2);
 					fState.vecInd = 6;
 					break;
 
 				case 3:
-					fState.a_3 = keypad();
+					fState.a_3 = keypad(fState.a_3);
 					fState.vecInd = 6;
 					break;
 
 				case 4:
-					fState.a_4 = keypad();
+					fState.a_4 = keypad(fState.a_4);
 					fState.vecInd = 6;
 					break;
 				case 0:
@@ -460,22 +467,22 @@ void MainTask(void) {
 					break;
 
 				case 1:
-					fState.b_1 = keypad();
+					fState.b_1 = keypad(fState.b_1);
 					fState.vecInd = 6;
 					break;
 
 				case 2:
-					fState.b_2 = keypad();
+					fState.b_2 = keypad(fState.b_2);
 					fState.vecInd = 6;
 					break;
 
 				case 3:
-					fState.b_3 = keypad();
+					fState.b_3 = keypad(fState.b_3);
 					fState.vecInd = 6;
 					break;
 
 				case 4:
-					fState.b_4 = keypad();
+					fState.b_4 = keypad(fState.b_4);
 					fState.vecInd = 6;
 					break;
 				case 0:

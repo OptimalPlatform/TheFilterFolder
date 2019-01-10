@@ -51,7 +51,7 @@ void infinite_loop_kalman_style(	volatile uint8_t* ADC1HalfBuffer, volatile uint
 	Data.MSE_pred = Parameters->MSE_pred;
 
 	// Fixed variables
-	Data.A = Parameters->a[1];
+	Data.A = -(Parameters->a[1]);
 	Data.B = Parameters->b[1];
 	Data.H = 1;
 	Data.C_w = Parameters->C_w;
@@ -64,18 +64,17 @@ void infinite_loop_kalman_style(	volatile uint8_t* ADC1HalfBuffer, volatile uint
 			while(!*ADC1HalfBuffer); // Question: Do I need extra parentheses around *ADC1HalfBuffer?
 			for(uint16_t i=0; i<BUFFER_SIZE/2; i++)
 			{
-				kalman_filter(&Data,ADC1InBuff[i]); // Here, for the int32_t you should be able to send in an offsetted integer!
-				DAC1OutBuff[i] = Data.x_est;
+				kalman_filter(&Data,(float32_t) (ADC1InBuff[i]));
+				DAC1OutBuff[i] = (uint16_t)(Data.x_est);
 				//DAC1OutBuff[i] = ADC1InBuff[i];
-
 			}
 			*ADC1HalfBuffer = 0;
 
 			while(!*ADC1FullBuffer);
 			for(uint16_t i=0; i<BUFFER_SIZE/2; i++)
 			{
-				kalman_filter(&Data,ADC1InBuff[i+BUFFER_SIZE/2]);
-				DAC1OutBuff[i+BUFFER_SIZE/2] = Data.x_est;
+				kalman_filter(&Data, (float32_t) (ADC1InBuff[i+BUFFER_SIZE/2]));
+				DAC1OutBuff[i+BUFFER_SIZE/2] = (uint16_t)(Data.x_est);
 				//DAC1OutBuff[i+BUFFER_SIZE/2] = ADC1InBuff[i+BUFFER_SIZE/2];
 			}
 			*ADC1FullBuffer = 0;
